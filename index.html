@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WILD BOUNTY BANDITS - PG SOFT ORIGINAL 3600 WAYS</title>
+    <style>
+        /* 🎨 ওরিজিনাল PG SOFT বাউন্টি ব্যান্ডিটস লাক্সারি ক্যাসিনো সিএসএস ফ্রেম ইনজেকশন ভাই ভাই */
+        html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #0c0805; font-family: 'Segoe UI', Roboto, sans-serif; color: #fff; -webkit-tap-highlight-color: transparent; user-select: none; }
+        .header { display: none !important; } 
+        
+        body { 
+            background: radial-gradient(circle at center, #2e1e11 0%, #080503 100%); 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            height: 100vh; 
+            position: relative;
+        }
+
+        /* 👑 ওরিজিনাল বাউন্টি মাল্টিপ্লায়ার সিঁড়ি প্যানেল (x1 -> x2 -> x4 -> x8) */
+        .multiplier-ladder-bar {
+            display: flex;
+            justify-content: space-between;
+            gap: 6px;
+            width: 100%;
+            max-width: 450px;
+            margin: 10px auto 0 auto;
+            padding: 0 15px;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+        .ladder-step-node {
+            flex: 1;
+            background: #1f140a;
+            border: 2px solid #3d2814;
+            padding: 6px 0;
+            text-align: center;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 900;
+            color: #6b4c2b;
+            transition: all 0.2s ease;
+        }
+        .ladder-step-node.active {
+            background: linear-gradient(180deg, #ffaa00 0%, #cc6600 100%);
+            border-color: #ffcc00;
+            color: #fff;
+            box-shadow: 0 0 12px rgba(255,170,0,0.5);
+        }
+
+        /* 🏟️ ৩,৬০০ ওয়েজ ব্যানার সাইড উইজেট লক ওস্তাদ */
+        .ways-counter-banner {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 410px;
+            margin: 8px auto 0 auto;
+            padding: 0 5px;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+        .ways-node-txt {
+            font-size: 11px;
+            font-weight: 900;
+            color: #ffaa00;
+            background: rgba(0,0,0,0.5);
+            padding: 3px 8px;
+            border-radius: 6px;
+            border: 1px solid #54391c;
+            letter-spacing: 0.5px;
+        }
+
+        /* 🏟️ ওরিজিনাল ৩-৪-৫-৫-৪-৩ কাউবয় ডাইনামিক গ্রিড এরিনা Wrapper */
+        .slot-machine-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            height: 295px;
+            margin: 8px auto 0 auto;
+            background: linear-gradient(180deg, #24150a 0%, #0a0603 100%);
+            border: 4px solid #b36b24;
+            border-radius: 24px;
+            box-shadow: 0 0 30px rgba(179,107,36,0.25), inset 0 0 25px rgba(0,0,0,0.9);
+            padding: 10px 8px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        /* 🎰 ওরিজিনাল ৩,৬০০ ওয়েজ ৬টি কলাম ক্যানভাস গ্রিড লেআউট চ্যাম */
+        .reels-grid-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 5px;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .reel-column-node {
+            background: #0d0703;
+            border: 2px solid #2b170a;
+            border-radius: 12px;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.9);
+        }
+
+        /* 🤠 রিলসের ভেতরের ওরিজিনাল ওয়াইল্ড বাউন্টি সিম্বল ইমেজ নোড */
+        .symbol-img-frame {
+            width: 85%;
+            height: 85%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.15s ease-in-out;
+        }
+        .symbol-img-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.85));
+        }
+
+        /* 🟢 মাঝখানের ওরিজিনাল নিয়ন গ্রিন পে-লাইন লেজার বর্ম */
+        .payline-center-laser-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #00ff88;
+            box-shadow: 0 0 12px #00ff88, 0 0 24px #00ff88;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0.75;
+        }
+
+        /* 🌀 ওরিজিনাল হাই-স্পিড ক্যাস্কেডিং ড্রপ ব্লার অ্যানিমেশন ইফেক্ট */
+        .reel-spinning-blur {
+            animation: reelSpinBlurAnim 0.11s linear infinite;
+        }
+        @keyframes reelSpinBlurAnim {
+            0% { transform: translateY(-35px) scaleY(1.2); filter: blur(3px); }
+            100% { transform: translateY(35px) scaleY(1.2); filter: blur(3px); }
+        }
+
+        /* 📢 লাইভ মেসেজ প্যানেল বার */
+        .win-status-container { position: relative; z-index: 10; text-align: center; padding: 10px; margin: 4px 12px; background: rgba(9, 12, 18, 0.6); border-radius: 10px; border: 1px solid rgba(255,255,255,0.02); }
+        #win-text-msg { font-size: 12px; font-weight: 700; color: #ffaa00; letter-spacing: 0.3px; }
+
+        /* 🎛️ নিচের মেইন গেম কন্ট্রোল প্যানেল ফুটার বার */
+        .footer-controls { position: relative; z-index: 50; background: #050302; border-top: 1px solid #1f130a; padding: 20px 15px 50px 15px; box-shadow: 0 -8px 25px rgba(0,0,0,0.7); }
+        .play-section { display: flex; justify-content: space-between; align-items: center; gap: 10px; max-width: 450px; margin: 0 auto; margin-bottom: 25px; }
+        .bet-btn-nav { background: #1f140a; border: 1px solid #3d2814; color: #ffaa00; font-size: 18px; font-weight: 800; width: 40px; height: 40px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .play-btn { flex: 1; background: linear-gradient(180deg, #ffaa00 0%, #cc6600 100%); color: #fff; font-size: 16px; font-weight: 900; border: none; padding: 12px 0; border-radius: 10px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(255,102,0,0.3); transition: all 0.15s ease; }
+        .play-btn:active { transform: scale(0.96); }
+        .play-btn:disabled { background: #141721 !important; border-color: #1f2536 !important; color: #4b5563 !important; box-shadow: none !important; cursor: not-allowed; }
+        .icon-btn { background: #1f140a; border: 1px solid #3d2814; width: 40px; height: 40px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #ffaa00; font-weight: bold; }
+        .icon-btn.active { background: #ffaa00; color: #000; box-shadow: 0 0 10px rgba(255,170,0,0.4); }
+
+        .win-glow-bar { border-color: rgba(0, 255, 136, 0.4) !important; background: rgba(0, 255, 136, 0.05) !important; }
+        .win-glow-bar #win-text-msg { color: #00ff88 !important; }
+        .lose-glow-bar { border-color: rgba(255, 51, 102, 0.4) !important; background: rgba(255, 51, 102, 0.05) !important; }
+        .lose-glow-bar #win-text-msg { color: #ff3366 !important; }
+    </style>
+</head>
+<body>
+
+    <div style="position: absolute; top: 12px; right: 12px; z-index: 100; pointer-events: none; display: none;">
+        <span id="user-balance">0.00</span>
+    </div>
+
+    <!-- 👑 ওরিজিনাল বাউন্টি মাল্টিপ্লায়ার প্যানেল নোড -->
+    <div class="multiplier-ladder-bar">
+        <div class="ladder-step-node active" id="step-x1">X1</div>
+        <div class="ladder-step-node" id="step-x2">X2</div>
+        <div class="ladder-step-node" id="step-x4">X4</div>
+        <div class="ladder-step-node" id="step-x8">X8</div>
+    </div>
+
+    <!-- 🏟️ ওরিজিনাল ৩,৬০০ WAYS ব্যানার উইজেট সিঙ্ক লক -->
+    <div class="ways-counter-banner">
+        <div class="ways-node-txt">3600 WAYS</div>
+        <div class="ways-node-txt">3600 WAYS</div>
+    </div>
+
+    <!-- 🏟️ ওরিজিনাল ডাইনামিক ৬-রিল কাউবয় ক্যানভাস Wrapper -->
+    <div class="slot-machine-wrapper">
+        <div class="reels-grid-container">
+            <div class="payline-center-laser-line"></div>
+            <div class="reel-column-node" id="reel-0"><div class="symbol-img-frame" id="sym-frame-0"><img src="Card_Ace.png" alt="WildBounty"></div></div>
+            <div class="reel-column-node" id="reel-1"><div class="symbol-img-frame" id="sym-frame-1"><img src="Card_King.png" alt="WildBounty"></div></div>
+            <div class="reel-column-node" id="reel-2"><div class="symbol-img-frame" id="sym-frame-2"><img src="Bandit_Wild.png" alt="WildBounty"></div></div>
+            <div class="reel-column-node" id="reel-3"><div class="symbol-img-frame" id="sym-frame-3"><img src="Card_Ace.png" alt="WildBounty"></div></div>
+            <div class="reel-column-node" id="reel-4"><div class="symbol-img-frame" id="sym-frame-4"><img src="Card_Q.png" alt="WildBounty"></div></div>
+            <div class="reel-column-node" id="reel-5"><div class="symbol-img-frame" id="sym-frame-5"><img src="Card_King.png" alt="WildBounty"></div></div>
+        </div>
+    </div>
+    <!-- 📢 উইন-লস লাইভ ক্যাসিনো মেসেজ বার -->
+    <div class="win-status-container" id="win-status-box">
+        <span id="win-text-msg">বেট সিলেক্ট করে SPIN বোতাম চাপুন ভাই, বাউন্টি ব্যান্ডিটস অন ফায়ার!</span>
+    </div>
+
+    <!-- 🎛️ বাজি ও অ্যাকশন কন্ট্রোল প্যানেল ফুটার বার -->
+    <div class="footer-controls">
+        <div class="play-section">
+            <button class="bet-btn-nav" onclick="adjustBet('minus')">-</button>
+            <div style="text-align: center; width: 65px;">
+                <div style="font-size: 9px; color: #aaa; font-weight: bold;">BET</div>
+                <div style="font-size: 15px; font-weight: 900; color: #fff;" id="bet-display">৳৫০</div>
+            </div>
+            <button class="bet-btn-nav" onclick="adjustBet('plus')">+</button>
+
+            <button class="play-btn" id="spin-btn" onclick="handleWildBountySpinRoll()">SPIN</button>
+            
+            <div class="icon-group">
+                <button class="icon-btn" id="auto-btn" onclick="toggleAuto()">🔄</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlUserId = urlParams.get('userId') || urlParams.get('id') || urlParams.get('username') || "logged_in_player";
+        const urlWallet = urlParams.get('wallet') || "main";
+        const SERVER_URL = window.location.origin;
+
+        let balance = 0.00;
+        let currentBet = 50; 
+        let isSpinning = false;
+        let isAuto = false;
+        let autoInterval = null;
+
+        // 🔒 [🔒 অফিশিয়াল ম্যাপার কারেকশন]: বাদ পড়া Card_Q সহ ৮টি ওরিজিনাল কাউবয় ছবির নিখুঁত ফাইল পাথ লক!
+        const symbolImagesMap = {
+            "BANDIT_WILD": "Bandit_Wild.png",
+            "GOLD_BAR_SCATTER": "Gold_Bar_Scatter.png",
+            "MASKED_BANDIT": "Masked_Bandit.png",
+            "COWBOY_HAT": "Cowboy_Hat.png",
+            "REVOLVER_PISTOL": "Revolver_Pistol.png",
+            "CARD_ACE": "Card_Ace.png",
+            "CARD_KING": "Card_King.png",
+            "CARD_JACK": "Card_Jack.png",
+            "CARD_Q": "Card_Q.png"
+        };
+
+        // 💰 লাইভ অ্যাকাউন্ট ওরিজিনাল মেইন ওয়ালেট ব্যালেন্স পুশ ড্রাইভার মেথড
+        async function fetchLivePlayerBalanceSync() {
+            try {
+                const res = await fetch(`${SERVER_URL}/api/slot-balance?userId=${urlUserId}&wallet=${urlWallet}&gameName=wildbounty`);
+                const data = await res.json();
+                if (data && data.success) {
+                    balance = parseFloat(data.balance);
+                    if (window.parent) window.parent.postMessage({ action: "refresh_wallet" }, "*");
+                }
+            } catch (e) {}
+        }
+        fetchLivePlayerBalanceSync();
+
+        function adjustBet(action) {
+            if (isSpinning) return;
+            if (action === 'minus' && currentBet > 50) currentBet -= 50;
+            if (action === 'plus' && currentBet < 20000) currentBet += 50;
+            document.getElementById("bet-display").innerText = `৳${currentBet}`;
+            playAudio('click');
+        }
+
+        // 🎰 [🎰 ডাইনামিক ক্যাস্কেডিং ড্রপ ও স্পিনিং অ্যানিমেশন ইঞ্জিন ভাই ভাই]
+        function animateWildBountyReelsSpinning(serverGameData) {
+            playAudio('spin');
+            
+            // রিস্টার্ট মাল্টিপ্লায়ার সিঁড়ি
+            resetMultiplierLadderGlow();
+
+            let matrixResult = serverGameData.finalReelsResultMatrix || (serverGameData.gameData ? serverGameData.gameData.finalReelsResultMatrix : null);
+            if (!matrixResult || !Array.isArray(matrixResult)) {
+                matrixResult = ["CARD_ACE", "CARD_KING", "BANDIT_WILD", "CARD_ACE", "CARD_Q", "CARD_KING"];
+            }
+
+            for (let i = 0; i < 6; i++) {
+                const frame = document.getElementById(`sym-frame-${i}`);
+                if (frame) frame.className = "symbol-img-frame reel-spinning-blur";
+            }
+
+            let reelIndex = 0;
+            let stopInterval = setInterval(() => {
+                if (reelIndex < 6) {
+                    const frame = document.getElementById(`sym-frame-${reelIndex}`);
+                    if (frame) {
+                        frame.className = "symbol-img-frame";
+                        let targetSymbolName = matrixResult[reelIndex];
+                        let imageFileName = symbolImagesMap[targetSymbolName] || "Card_Ace.png";
+                        frame.innerHTML = `<img src="${imageFileName}" alt="${targetSymbolName}">`;
+                        
+                        frame.style.transform = "translateY(-20px)";
+                        setTimeout(() => { if(frame) frame.style.transform = "translateY(0)"; }, 70);
+                    }
+                    playAudio('click');
+                    reelIndex++;
+                } else {
+                    clearInterval(stopInterval);
+                    if (serverGameData.balance !== undefined) balance = parseFloat(serverGameData.balance);
+                    
+                    if(serverGameData.isFreeSpinRound === true) {
+                        updateFreeSpinMultiplierLadderGlow(serverGameData.winMultiplier);
+                    } else {
+                        updateMultiplierLadderGlow(serverGameData.winMultiplier);
+                    }
+                    
+                    showFinalWildBountyReward(serverGameData.status, serverGameData.winMultiplier, serverGameData.winAmount, serverGameData);
+                }
+            }, 250); // ২৫০ মিলি-সেকেন্ডের হাই-স্পিড অফিশিয়াল ড্রপ ইন্টারভাল লক চ্যাম
+        }
+
+        function updateMultiplierLadderGlow(multiplier) {
+            resetMultiplierLadderGlow();
+            if (multiplier >= 8) document.getElementById("step-x8").className = "ladder-step-node active";
+            else if (multiplier >= 4) document.getElementById("step-x4").className = "ladder-step-node active";
+            else if (multiplier >= 2) document.getElementById("step-x2").className = "ladder-step-node active";
+            else document.getElementById("step-x1").className = "ladder-step-node active";
+        }
+
+        function updateFreeSpinMultiplierLadderGlow(multiplier) {
+            resetMultiplierLadderGlow();
+            // ফ্রি স্পিন মোডে ডাবল বাউন্টি সিঁড়ি (x2 -> x4 -> x8 -> x16)
+            if (multiplier >= 16) document.getElementById("step-x8").className = "ladder-step-node active";
+            else if (multiplier >= 8) document.getElementById("step-x4").className = "ladder-step-node active";
+            else if (multiplier >= 4) document.getElementById("step-x2").className = "ladder-step-node active";
+            else document.getElementById("step-x1").className = "ladder-step-node active";
+        }
+
+        function resetMultiplierLadderGlow() {
+            document.getElementById("step-x1").className = "ladder-step-node";
+            document.getElementById("step-x2").className = "ladder-step-node";
+            document.getElementById("step-x4").className = "ladder-step-node";
+            document.getElementById("step-x8").className = "ladder-step-node";
+        }
+
+        async function handleWildBountySpinRoll() {
+            if (isSpinning || isSpinning === true) return; 
+            isSpinning = true;
+            
+            const spinBtn = document.getElementById("spin-btn");
+            if (spinBtn) spinBtn.disabled = true; 
+
+            document.getElementById("win-status-box").className = "win-status-container";
+            document.getElementById("win-text-msg").innerText = "🎰 ৩,৬০০ ওয়েজ ক্যাস্কেডিং ড্রপ চলছে... বাউন্টি বোনাসের অপেক্ষা ওস্তাদ...";
+            playAudio('click');
+
+            try {
+                const response = await fetch(`${SERVER_URL}/api/slot-spin`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId: urlUserId, amount: parseFloat(currentBet), wallet: urlWallet, gameName: "wildbounty" })
+                });
+
+                const serverRes = await response.json();
+                
+                if (serverRes.success || serverRes.success === true) {
+                    let targetGamePayload = serverRes.gameData || serverRes;
+                    animateWildBountyReelsSpinning(targetGamePayload);
+                } else {
+                    alert(serverRes.message || "❌ আপনার অ্যাকাউন্ট ব্যালেন্স জিরো বা অপ্রতুল! দয়া করে রিচার্জ করুন ওস্তাদ।");
+                    stopWildBountyState();
+                }
+            } catch (err) {
+                stopWildBountyState();
+            }
+        }
+
+                function showFinalWildBountyReward(status, winMultiplier, winAmount, serverPayload) {
+            const msgBox = document.getElementById("win-status-box");
+            const textMsg = document.getElementById("win-text-msg");
+            
+            if (status === "free_spin_triggered") {
+                playAudio('win');
+                if (msgBox) msgBox.className = "win-status-container win-glow-bar";
+                // ফ্রি স্পিন মোডে সিঁড়ির লেখা ডাইনামিকালি শিফট (X2->X4->X8->X16)
+                document.getElementById("step-x1").innerText = "X2";
+                document.getElementById("step-x2").innerText = "X4";
+                document.getElementById("step-x4").innerText = "X8";
+                document.getElementById("step-x8").innerText = "X16";
+                textMsg.innerHTML = `🔥 <b>ফ্রি স্পিন বোনাস আনলক!</b> ৩টি গোল্ডেন স্ক্যাটার মিলে <b>১০টি FREE SPIN</b> জিতলেন ভাই ভাই!`;
+                alert("🎉 WILD BOUNTY: ১০টি ফ্রি স্পিন বোনাস রাউন্ড আনলক হয়েছে ওস্তাদ!");
+            } else if (status === "win" && winAmount > 0) {
+                playAudio('win');
+                if (msgBox) msgBox.className = "win-status-container win-glow-bar";
+                textMsg.innerHTML = `🎉 <b>মেগা বাউন্টি উইন ওস্তাদ!</b> ক্যাস্কেড ব্লাস্টে ওয়ালেটে ৳${winAmount} ক্যাশ ক্রেডিট লক ভাই ভাই!`;
+            } else {
+                playAudio('wheel');
+                if (msgBox) msgBox.className = "win-status-container lose-glow-bar";
+                textMsg.innerHTML = `💥 ওহ হো মিস ওস্তাদ! কাউবয় কম্বিনেশন পে-লাইন মিস হয়েছে। আবার স্পিন মারুন ভাই ভাই!`;
+            }
+
+            if (window.parent) window.parent.postMessage({ action: "refresh_wallet" }, "*");
+            stopWildBountyState();
+            fetchLivePlayerBalanceSync(); // নতুন ব্যালেন্স ইনস্ট্যান্ট রিকল
+
+            let freeSpinsLeft = serverPayload.freeSpinsLeft !== undefined ? serverPayload.freeSpinsLeft : (serverPayload.gameData ? serverPayload.gameData.freeSpinsLeft : 0);
+            
+            if (freeSpinsLeft === 0) {
+                // নরমাল মোডে ফেরত
+                document.getElementById("step-x1").innerText = "X1";
+                document.getElementById("step-x2").innerText = "X2";
+                document.getElementById("step-x4").innerText = "X4";
+                document.getElementById("step-x8").innerText = "X8";
+            }
+
+            if (isAuto || freeSpinsLeft > 0) {
+                autoInterval = setTimeout(() => {
+                    handleWildBountySpinRoll();
+                }, 3800);
+            }
+        }
+
+        if (typeof io !== 'undefined') {
+            const socket = io();
+            socket.on("balanceUpdate", (data) => {
+                if (data && data.username === urlUserId) {
+                    if (window.parent) window.parent.postMessage({ action: "refresh_wallet" }, "*");
+                    fetchLivePlayerBalanceSync();
+                }
+            });
+        }
+
+        function toggleAuto() {
+            isAuto = !isAuto;
+            const autoEl = document.getElementById("auto-btn");
+            if (autoEl) autoEl.classList.toggle('active', isAuto);
+            if (isAuto && !isSpinning) handleWildBountySpinRoll();
+            playAudio('click');
+        }
+
+        function stopWildBountyState() {
+            isSpinning = false;
+            const spinBtn = document.getElementById("spin-btn");
+            if (spinBtn) spinBtn.disabled = false; 
+            if (!isAuto && autoInterval) clearTimeout(autoInterval);
+        }
+
+        const slotSounds = {
+            click: new Audio('spin2.mp3'),
+            spin: new Audio('spin2.mp3'),
+            win: new Audio('win2.mp3'),
+            wheel: new Audio('spin2.mp3')
+        };
+        Object.values(slotSounds).forEach(s => s.load());
+
+        function playAudio(type) {
+            try { if(slotSounds[type]) { slotSounds[type].currentTime = 0; slotSounds[type].play().catch(e => {}); } } catch(e) {}
+        }
+    </script>
+</body>
+</html>
+
+    
