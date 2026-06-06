@@ -1,0 +1,30 @@
+{
+  "name": "wild-bounty-bandits",
+  "version": "1.0.0",
+  "description": "Wild Bounty Bandits PG Soft Original 3600 Ways Crash Slots Engine",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "slots",
+    "casino",
+    "pgsoft",
+    "3600ways",
+    "wildbounty"
+  ],
+  "author": "Royal Casino King",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
