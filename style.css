@@ -1,0 +1,301 @@
+/* ===================================================================================
+   🤠 WILD BOUNTY BANDITS - 10000000000% EXACT OFFICIAL 3D VISUAL STYLESHEET
+   =================================================================================== */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #050302;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #ffffff;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+/* 🔒 [মেগা কিলার হেডার BLOKER বর্ম ভাই ভাই]: লবির মেইন হেডারের সাথে ডাবল বক্স জ্যাম ওয়ান-শটে সাফ! */
+.header {
+    display: none !important;
+}
+
+/* 🏟️ ক্যাসিনো মেইন ডার্ক ওরিয়েন্টাল কাউবয় পিচ চাদর সিঙ্ক */
+body {
+    background: radial-gradient(circle at center, #2e1d0f 0%, #060402 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    position: relative;
+}
+
+/* 👑 ওপরে ঝুলন্ত ওরিজিনাল ওッズ কাঠের সিঁড়ি প্যানেল (হুবহু স্ক্রিনশটের মেটালিক লুক ওস্তাদ!) */
+.top-wooden-ladder {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 430px;
+    margin: 12px auto 0 auto;
+    padding: 8px 18px;
+    box-sizing: border-box;
+    background: linear-gradient(180deg, #3d220f 0%, #170b04 100%);
+    border: 3px solid #54341b;
+    border-radius: 14px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.8), inset 0 2px 4px rgba(255,255,255,0.05);
+    z-index: 10;
+}
+
+.ladder-node-item {
+    font-size: 13px;
+    font-weight: 900;
+    color: #704724;
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.95);
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+}
+
+.ladder-node-item.active {
+    background: linear-gradient(180deg, #ffe082 0%, #ffb300 50%, #ff8f00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 16px;
+    transform: scale(1.1);
+    filter: drop-shadow(0px 0px 8px rgba(255,170,0,0.6));
+}
+
+/* 🏟️ ৩,৬০০ WAYS দুই সাইডের কাঠের নোটিশ ব্যানার উইজেট */
+.ways-wooden-holder {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 430px;
+    margin: 6px auto 0 auto;
+    padding: 0 10px;
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+.ways-label {
+    font-size: 11px;
+    font-weight: 900;
+    color: #a8713b;
+    background: linear-gradient(180deg, #1f1107 0%, #0d0602 100%);
+    padding: 4px 14px;
+    border-radius: 6px;
+    border: 1px solid #361e0e;
+    text-shadow: 1px 1px 2px #000;
+    letter-spacing: 0.8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+}
+
+/* 🏟️ ওরিজিনাল ৩-৪-৫-৫-৪-৩ ডাইনামিক গ্রিড ক্যানভাস এরিনা Container */
+.grid-stadium-canvas {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 450px;
+    height: 380px; /* ৩,৬০০ ওয়েজ ওরিজিনাল ৩D এলাইনমেন্ট লম্বা ফ্রেম হাইট লক চ্যাম */
+    margin: 8px auto;
+    padding: 0 12px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 5;
+}
+
+/* ডাইনামিক কলাম ট্র্যাকার পাইপলাইন */
+.column-pipe-node {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    height: 100%;
+    justify-content: center;
+}
+
+/* ওরিজিনাল ক্যাসিনো কার্ডের ব্যাকগ্রাউন্ড ডার্ক কাঠের খোপ */
+.card-slot-box {
+    background: linear-gradient(180deg, #0f0703 0%, #050201 100%);
+    border: 2px solid #241308;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.95);
+    box-sizing: border-box;
+}
+
+/* কলাম অনুযায়ী ৩-৪-৫-৫-৪-৩ সুষম হাইট বাউন্সার */
+.col-h-3 { height: 26%; }
+.col-h-4 { height: 20%; }
+.col-h-5 { height: 16%; }
+
+.symbol-img-node {
+    width: 88%;
+    height: 88%;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.9));
+}
+
+/* 🚪 ডানদিকের ভাসমান FEATURE BUY বাটন (হুবহু স্ক্রিনশটের মেটালিক ব্রাউন লুক!) */
+.feature-buy-wood-btn {
+    position: absolute;
+    right: 18px;
+    bottom: 25px;
+    background: linear-gradient(180deg, #5c381a 0%, #2e1908 100%);
+    border: 2px solid #7a4b24;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 900;
+    color: #ffcc66;
+    text-transform: uppercase;
+    text-align: center;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.1);
+    z-index: 20;
+    cursor: pointer;
+    line-height: 1.3;
+}
+
+/* 📢 উইন-লস ওরিজিনাল মিডল গোলډেন বার ড্যাশবোর্ড উইজেট */
+.center-dashboard-status {
+    width: 100%;
+    max-width: 430px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, #241408 0%, #0d0602 100%);
+    border: 2px solid #4a2b14;
+    border-radius: 12px;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.status-panel-sub { text-align: center; flex: 1; }
+.status-lbl { font-size: 10px; color: #8c5e35; font-weight: 900; letter-spacing: 0.5px; margin-bottom: 2px; }
+.status-val { font-size: 15px; font-weight: 900; color: #ffffff; text-shadow: 1px 1px 2px #000; }
+
+/* 🎛️ একদম নিচের মেটালিক সুপ্রীম ওরিজিনাল PG SOFT কন্ট্রোল ফুটার */
+.bottom-metal-controls {
+    background: #030201;
+    border-top: 2px solid #1a0f05;
+    padding: 18px 24px 45px 24px; /* 👈 প্যাডিং বাড়িয়ে মেইন বাটন প্যানেলটিকে কাটায় কাটায় ২৫ পিক্সেল ওপরে লিফটিং লক! */
+    box-shadow: 0 -8px 30px rgba(0,0,0,0.9);
+    z-index: 100;
+}
+
+.action-flex-pack {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+/* বিদ্যুৎ চমকানো টার্বো বোতাম চ্যাম */
+.turbo-circle-btn {
+    background: linear-gradient(180deg, #1c130c 0%, #0d0805 100%);
+    border: 2px solid #3d2819;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d4912a;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+    transition: all 0.15s ease;
+}
+
+.turbo-circle-btn.active {
+    background: radial-gradient(circle, #ffe082 0%, #ff9100 100%);
+    color: #000000;
+    border-color: #fff;
+    box-shadow: 0 0 15px rgba(255,145,0,0.6);
+}
+
+/* প্লাস মাইনাস স্টেক নব বোতাম */
+.stake-nav-btn {
+    background: transparent;
+    color: #ffaa00;
+    font-size: 26px;
+    font-weight: 900;
+    border: none;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 1px 1px 3px #000;
+    transition: transform 0.1s ease;
+}
+.stake-nav-btn:active { transform: scale(0.9); }
+
+/* 🚀 মাঝখানের মেগা ওরিজিনাল গোল্ডেন কাউবয় ঘূর্ণন চাকা বোতাম (১০০০০০% হুবহু কিলার লুক!) */
+.grand-spin-wheel-btn {
+    width: 76px;
+    height: 76px;
+    background: radial-gradient(circle, #fff3cc 0%, #ffaa00 50%, #994c00 100%);
+    border: 4px solid #ffea00;
+    border-radius: 50%;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.85), inset 0 2px 5px rgba(255,255,255,0.5);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.1s ease;
+}
+
+.spin-arrow-icon {
+    width: 36px;
+    height: 36px;
+    border: 6px solid #241300;
+    border-radius: 50%;
+    border-top-color: transparent;
+    box-sizing: border-box;
+    transform: rotate(45deg);
+}
+
+/* AUTO টেক্সট বোতাম চ্যাম */
+.auto-text-btn {
+    background: linear-gradient(180deg, #1c130c 0%, #0d0805 100%);
+    border: 2px solid #3d2819;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d4912a;
+    font-size: 11px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+    text-transform: uppercase;
+    transition: all 0.15s ease;
+}
+
+.auto-text-btn.active {
+    background: radial-gradient(circle, #ffe082 0%, #ff9100 100%);
+    color: #000000;
+    border-color: #fff;
+    box-shadow: 0 0 15px rgba(255,145,0,0.6);
+}
+
+/* 🌀 ক্যাস্কেডিং ড্রপ ব্লার অ্যানিমেশন ইফেক্ট */
+.drop-cascading-blur {
+    animation: cascadeDropAnim 0.11s linear infinite;
+}
+
+@keyframes cascadeDropAnim {
+    0% { transform: translateY(-40px) scaleY(1.2); filter: blur(3px); }
+    100% { transform: translateY(40px) scaleY(1.2); filter: blur(3px); }
+}
