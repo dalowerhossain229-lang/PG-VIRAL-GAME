@@ -304,7 +304,7 @@
         document.getElementById("spin-btn").style.opacity = "1";
         let spinsLeft = payload && payload.freeSpinsLeft ? payload.freeSpinsLeft : 0;
         if (isAuto || spinsLeft > 0) {
-            autoInterval = setTimeout(() => { handleWildBountySpinRoll(); }, 3500);
+            autoInterval = setTimeout(() => { handleWildBountySpinRoll(); }, 1500);
         }
     }
 
