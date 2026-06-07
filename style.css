@@ -328,7 +328,7 @@ body {
 
 /* 🌀 ক্যাস্কেডিং ড্রপ ব্লার অ্যানিমেশন ইফেক্ট */
 .drop-cascading-blur {
-    animation: cascadeDropAnim 0.11s linear infinite !important;
+    animation: cascadeDropAnim 0.08s linear infinite !important;
 }
 
 @keyframes cascadeDropAnim {
