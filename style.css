@@ -1,0 +1,333 @@
+/* ===================================================================================
+   🤠 WILD BOUNTY BANDITS - 10000000000% EXACT OFFICIAL 3D VISUAL STYLESHEET
+   =================================================================================== */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #050302;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #ffffff;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+/* 🔒 [মেগা কিলার হেডার BLOKER বর্ম ভাই ভাই]: লবির মেইন হেডারের সাথে ডাবল বক্স জ্যাম ওয়ান-শটে সাফ! */
+.header {
+    display: none !important;
+}
+
+/* 🏟️ ক্যাসিনো মেইন ডার্ক ওরিয়েন্টাল কাউবয় পিচ চাদর সিঙ্ক */
+body {
+    background: radial-gradient(circle at center, #2e1d0f 0%, #060402 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    position: relative;
+}
+
+/* 👑 [🔒 ওরিজিনাল ৩D বাঁকা আর্চ তক্তা লক ওস্তাদ 🔒]:
+   আপনার স্ক্রিনশটের সেই ওরিজিনাল সুন্দর নিখুঁত ধনুকের মতো বাঁকা ঝুলন্ত উড প্যানেল বর্ম চ্যাম! */
+.top-wooden-ladder {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 92%;
+    max-width: 410px;
+    margin: 12px auto 0 auto;
+    padding: 14px 25px 28px 25px; 
+    box-sizing: border-box;
+    background: linear-gradient(180deg, #422612 0%, #1c0e05 100%);
+    border: 3px solid #54341b;
+    border-bottom: 5px solid #6e4324; 
+    border-bottom-left-radius: 50% 30px !important;
+    border-bottom-right-radius: 50% 30px !important;
+    box-shadow: 0 10px 22px rgba(0,0,0,0.85), inset 0 2px 4px rgba(255,255,255,0.08);
+    z-index: 10;
+    position: relative;
+}
+
+.ladder-node-item {
+    font-size: 13px;
+    font-weight: 900;
+    color: #704724;
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.95);
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.ladder-node-item.active {
+    background: linear-gradient(180deg, #ffe082 0%, #ffb300 50%, #ff8f00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 18px !important; 
+    transform: scale(1.15) translateY(5px); 
+    filter: drop-shadow(0px 0px 10px rgba(255,170,0,0.7));
+}
+
+/* 🏟️ ৩,৬০০ WAYS দুই সাইডের নোটিশ ব্যানার এবং মাঝখানে ফ্লেক্স উইজেট */
+.ways-wooden-holder {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    width: 100%;
+    max-width: 430px;
+    margin: 6px auto 0 auto; 
+    padding: 0 10px;
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+.ways-label {
+    font-size: 11px;
+    font-weight: 900;
+    color: #a8713b;
+    background: linear-gradient(180deg, #1f1107 0%, #0d0602 100%);
+    padding: 4px 12px;
+    border-radius: 6px;
+    border: 1px solid #361e0e;
+    text-shadow: 1px 1px 2px #000;
+    letter-spacing: 0.8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+}
+
+/* FEATURE BUY বাটন ওপরের ফ্রেম স্টাইলিং */
+.feature-buy-wood-btn {
+    background: linear-gradient(180deg, #5c381a 0%, #2e1908 100%);
+    border: 2px solid #7a4b24;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 900;
+    color: #ffcc66;
+    text-transform: uppercase;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.7), inset 0 1px 2px rgba(255,255,255,0.1);
+    cursor: pointer;
+    line-height: 1.2;
+    min-width: 90px;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+/* 🏟️ [🔒 গেম এরিয়া রিকভারি সুপ্রীম বর্ম 🔒]: 
+   বিশাল বড় রাক্ষুসে নিয়ন জ্যাম দেয়াল ওয়ান-শটে সাফ! ৩-৪-৫-৫-৪-৩ গ্রিড এরিনা এর ক্যানভাস ফ্রেমের 
+   হাইট-উইডথ ও বাউন্ডারি ফিক্সড লক করে দেওয়া হলো, যাতে ভেতরের কোনো অক্ষর বা ছবি একে ভেঙে বাইরে যেতে না পারে ওস্তাদ! */
+.grid-stadium-canvas {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 420px;
+    height: 310px; /* 👈 ওস্তাদ! এরিনা ফ্রেম হাইট ৩১টি পিক্সেল টাইট বাউন্ডারিতে লক করা হলো! */
+    margin: 10px auto;
+    padding: 0 5px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 5;
+    overflow: hidden; /* বাইরে কন্টেন্ট লিক হওয়া চিরতরে বন্ধ ভাই ভাই */
+}
+
+/* ডাইনামিক কলাম ট্র্যাকার পাইপলাইন */
+.column-pipe-node {
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    height: 100%;
+    justify-content: center;
+    position: relative;
+}
+
+/* ওরিজিনাল ক্যাসিনো কার্ডের ব্যাকগ্রাউন্ড ডার্ক কাঠের খোপ */
+.card-slot-box {
+    background: linear-gradient(180deg, #0f0703 0%, #050201 100%);
+    border: 2px solid #241308;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.95);
+    box-sizing: border-box;
+    overflow: hidden; 
+    padding: 0px !important; 
+}
+
+.col-h-3 { height: 26% !important; }
+.col-h-4 { height: 20% !important; }
+.col-h-5 { height: 16% !important; }
+
+/* 🚀 [🔒 আল্টিমেট পিউর ইমেজ ও টেক্সট সাইজ ব্যালেন্সার বর্ম 🔒]:
+   টেক্সট ওরিয়েন্টেড অক্ষর যেন বাউন্স না খায় এবং আপনি যখন ছবি আপলোড করবেন, ছবিগুলো যাতে 
+   খোপের একদম ৯০% জায়গা সুন্দর বড় সাইজে ফিলাপ করে রাক্ষুসে ওভারফ্লো সাফ করে—তার জাদুকরী ওরিজিনাল মেথড লক! */
+.card-slot-box img, .symbol-img-node {
+    width: 90% !important;   /* 👈 ছবি আপলোড দিলে বর্ডার ছুয়ে মাখনের মতো পারফেক্ট বড় হবে ওস্তাদ! */
+    height: 90% !important;  /* 👈 ছবি আপলোড দিলে বর্ডার ছুয়ে মাখনের মতো পারফেক্ট বড় হবে ওস্তাদ! */
+    object-fit: contain !important; /* 👈 টেক্সট এবং ইমেজ ওভারফ্লো জ্যাম ওয়ান-শটে চিরতরে ওড়াও সাফ! */
+    display: block !important;
+    margin: auto !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+}
+
+/* ঘরের ভেতরের প্লেইন টেক্সট অক্ষর যাতে শান্ত সুষম সাইজে থাকে তার বর্ম */
+.card-slot-box span {
+    font-size: 16px !important; /* 👈 ওস্তাদ! ছবি আপলোডের আগ পর্যন্ত রঙিন অক্ষরগুলোকে ১৬ পিক্সেলে টাইট লক! */
+    font-weight: 900 !important;
+    display: block !important;
+    text-align: center !important;
+    line-height: 1 !important;
+    transform: none !important;
+}
+
+.symbol-img-frame {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* 📢 উইন-লস ওরিজিনাল মিডল গোল্ডেন বার ড্যাশবোর্ড উইজেট */
+.center-dashboard-status {
+    width: 100%;
+    max-width: 430px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, #241408 0%, #0d0602 100%);
+    border: 2px solid #4a2b14;
+    border-radius: 12px;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.status-panel-sub { text-align: center; flex: 1; }
+.status-lbl { font-size: 10px; color: #8c5e35; font-weight: 900; letter-spacing: 0.5px; margin-bottom: 2px; }
+.status-val { font-size: 15px; font-weight: 900; color: #ffffff; text-shadow: 1px 1px 2px #000; }
+
+/* 🎛️ একদম নিচের মেটালিক ওরিজিনাল PG SOFT কন্ট্রোল ফুটার */
+.bottom-metal-controls {
+    background: #030201;
+    border-top: 2px solid #1a0f05;
+    padding: 18px 24px 45px 24px; 
+    box-shadow: 0 -8px 30px rgba(0,0,0,0.9);
+    z-index: 100;
+}
+
+.action-flex-pack {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+/* বিদ্যুৎ চমকানো টার্বো বাটন চ্যাম */
+.turbo-circle-btn {
+    background: linear-gradient(180deg, #1c130c 0%, #0d0805 100%);
+    border: 2px solid #3d2819;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d4912a;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+    transition: all 0.15s ease;
+}
+
+.turbo-circle-btn.active {
+    background: radial-gradient(circle, #ffe082 0%, #ff9100 100%);
+    color: #000000;
+    border-color: #fff;
+    box-shadow: 0 0 15px rgba(255,145,0,0.6);
+}
+
+/* প্লাস মাইনাস স্টেক নব বোতাম */
+.stake-nav-btn {
+    background: transparent;
+    color: #ffaa00;
+    font-size: 26px;
+    font-weight: 900;
+    border: none;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 1px 1px 3px #000;
+}
+
+/* 🚀 mমাঝখানের মেগা ওরিজিনাল গোল্ডেন চাকা বোতাম */
+.grand-spin-wheel-btn {
+    width: 76px;
+    height: 76px;
+    background: radial-gradient(circle, #fff3cc 0%, #ffaa00 50%, #994c00 100%);
+    border: 4px solid #ffea00;
+    border-radius: 50%;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.85), inset 0 2px 5px rgba(255,255,255,0.5);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spin-arrow-icon {
+    width: 36px;
+    height: 36px;
+    border: 6px solid #241300;
+    border-radius: 50%;
+    border-top-color: transparent;
+    box-sizing: border-box;
+    transform: rotate(45deg);
+}
+
+/* AUTO টেক্সট বোতাম চ্যাম */
+.auto-text-btn {
+    background: linear-gradient(180deg, #1c130c 0%, #0d0805 100%);
+    border: 2px solid #3d2819;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d4912a;
+    font-size: 11px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+    text-transform: uppercase;
+}
+
+.auto-text-btn.active {
+    background: radial-gradient(circle, #ffe082 0%, #ff9100 100%);
+    color: #000000;
+    border-color: #fff;
+    box-shadow: 0 0 15px rgba(255,145,0,0.6);
+}
+
+/* 🌀 ক্যাস্কেডিং ড্রপ ব্লার অ্যানিমেশন ইফেক্ট */
+.drop-cascading-blur {
+    animation: cascadeDropAnim 0.11s linear infinite !important;
+}
+
+@keyframes cascadeDropAnim {
+    0% { transform: translateY(-15px); filter: blur(3px); opacity: 0.7; }
+    50% { transform: translateY(15px); filter: blur(3px); opacity: 0.7; }
+    100% { transform: translateY(-15px); filter: blur(3px); opacity: 0.7; }
+}
