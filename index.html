@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
@@ -18,21 +18,24 @@
             position: relative;
         }
 
-        /* 👑 ওপরে রশি দিয়ে ঝুলন্ত বাঁকা কাঠের তক্তার ওরিজিনাল ওッズ ট্র্যাকার */
+        /* 👑 ওপরে ওッズ কাঠের সিঁড়ি প্যানেল (বর্ডার রেডিয়াসে নিচের দিকে ধনুকের মতো অবতল বাঁকা ওস্তাদ!) */
         .top-wooden-ladder {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 100%;
-            max-width: 430px;
+            width: 92%;
+            max-width: 410px;
             margin: 12px auto 0 auto;
-            padding: 8px 18px;
+            padding: 14px 25px 28px 25px; 
             box-sizing: border-box;
-            background: linear-gradient(180deg, #3d220f 0%, #170b04 100%);
+            background: linear-gradient(180deg, #422612 0%, #1c0e05 100%);
             border: 3px solid #54341b;
-            border-radius: 14px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.8), inset 0 2px 4px rgba(255,255,255,0.05);
+            border-bottom: 5px solid #6e4324; 
+            border-bottom-left-radius: 50% 30px !important;
+            border-bottom-right-radius: 50% 30px !important;
+            box-shadow: 0 10px 22px rgba(0,0,0,0.85), inset 0 2px 4px rgba(255,255,255,0.08);
             z-index: 10;
+            position: relative;
         }
 
         .ladder-node-item {
@@ -42,6 +45,7 @@
             text-shadow: 2px 2px 3px rgba(0,0,0,0.95);
             transition: all 0.2s ease;
             text-transform: uppercase;
+            position: relative;
         }
 
         .ladder-node-item.active {
@@ -49,20 +53,23 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-size: 16px;
-            transform: scale(1.1);
-            filter: drop-shadow(0px 0px 8px rgba(255,170,0,0.6));
+            transform: scale(1.15) translateY(5px); 
+            filter: drop-shadow(0px 0px 10px rgba(255,170,0,0.7));
         }
 
-        /* 🏟️ ৩,৬০০ WAYS দুই সাইডের কাঠের নোটিশ ব্যানার */
-        .ways-wooden-holder {
+        /* 🏟️ [🔒 গ্র্যান্ড কিংস লেআউট ফিক্স 🔒]: ৩,৬০০ WAYS দুই সাইডের ব্যানার এবং মাঝখানের ফাঁকা জায়গায় 
+           FEATURE BUY কাঠের বাটন ওয়ান-শটে ১ ফ্রেমে প্যাকিং লক চ্যাম ওস্তাদ! */
+        .top-banner-row-container {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             width: 100%;
-            max-width: 430px;
+            max-width: 420px;
             margin: 6px auto 0 auto;
             padding: 0 10px;
             box-sizing: border-box;
-            z-index: 10;
+            z-index: 20;
+            position: relative;
         }
 
         .ways-label {
@@ -70,13 +77,35 @@
             font-weight: 900;
             color: #a8713b;
             background: linear-gradient(180deg, #1f1107 0%, #0d0602 100%);
-            padding: 4px 14px;
+            padding: 4px 12px;
             border-radius: 6px;
             border: 1px solid #361e0e;
             text-shadow: 1px 1px 2px #000;
-            letter-spacing: 0.8px;
+            letter-spacing: 0.5px;
             box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+            white-space: nowrap;
         }
+
+        /* 🚪 [🔒 আপনার স্নাইপার শট আইডিয়া লক ওস্তাদ! 🔒]: ফিচার বাই বাটনটি এখন মেইন রিল বোর্ডের ভেতর থেকে চিরতরে সাফ হয়ে 
+           ওপরে দুই ব্যানারের একদম মাঝখানের ফাঁকা প্রকোষ্ঠে গ্র্যান্ড কিংস ফিক্সড পজিশনে বসে গেল ভাই ভাই! */
+        .feature-buy-wood-btn {
+            background: linear-gradient(180deg, #5c381a 0%, #2e1908 100%);
+            border: 2px solid #7a4b24;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 9px;
+            font-weight: 900;
+            color: #ffcc66;
+            text-transform: uppercase;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.1);
+            cursor: pointer;
+            line-height: 1.1;
+            width: 75px;
+            box-sizing: border-box;
+            transition: all 0.1s ease;
+        }
+        .feature-buy-wood-btn:active { transform: scale(0.95); }
 
         /* 🏟️ ওরিজিনাল ৩-৪-৫-৫-৪-৩ ডাইনামিক গ্রিড ক্যানভাস এরিনা */
         .grid-stadium-canvas {
@@ -86,7 +115,7 @@
             max-width: 450px;
             height: 380px; 
             margin: 8px auto;
-            padding: 0 12px;
+            padding: 0 15px;
             box-sizing: border-box;
             position: relative;
             z-index: 5;
@@ -96,9 +125,10 @@
             width: 15%;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
             height: 100%;
             justify-content: center;
+            position: relative;
         }
 
         .card-slot-box {
@@ -113,38 +143,11 @@
             box-sizing: border-box;
         }
 
-        .col-h-3 { height: 26%; }
-        .col-h-4 { height: 20%; }
-        .col-h-5 { height: 16%; }
+        .col-h-3 { height: 26% !important; }
+        .col-h-4 { height: 20% !important; }
+        .col-h-5 { height: 16% !important; }
 
-        .symbol-img-node {
-            width: 88%;
-            height: 88%;
-            object-fit: contain;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.9));
-        }
-
-        /* 🚪 FEATURE BUY বাটন */
-        .feature-buy-wood-btn {
-            position: absolute;
-            right: 18px;
-            bottom: 25px;
-            background: linear-gradient(180deg, #5c381a 0%, #2e1908 100%);
-            border: 2px solid #7a4b24;
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-size: 11px;
-            font-weight: 900;
-            color: #ffcc66;
-            text-transform: uppercase;
-            text-align: center;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.1);
-            z-index: 20;
-            cursor: pointer;
-            line-height: 1.3;
-        }
-
-        /* 📢 ওরিজিনাল মিডল বার ড্যাশবোর্ড উইজেট */
+        /* 📢 ওরিজিনাল মিডল বার উইজেট */
         .center-dashboard-status {
             width: 100%;
             max-width: 430px;
@@ -263,19 +266,21 @@
             box-shadow: 0 0 15px rgba(255,145,0,0.6);
         }
 
-        /* 🌀 ওরিজিনাল ইমেজ ক্যাস্কেডিং ড্রপ ব্লার অ্যানিমেশন ইফেক্ট */
+        /* 🌀 ক্যাস্কেডিং ড্রপ ব্লার অ্যানিমেশন ইফেক্ট */
         .drop-cascading-blur {
             animation: cascadeDropAnim 0.11s linear infinite !important;
         }
 
         @keyframes cascadeDropAnim {
-            0% { transform: translateY(-20px) scaleY(1.2); filter: blur(4px); opacity: 0.8; }
-            50% { transform: translateY(20px) scaleY(1.2); filter: blur(4px); opacity: 0.8; }
-            100% { transform: translateY(-20px) scaleY(1.2); filter: blur(4px); opacity: 0.8; }
+            0% { transform: translateY(-15px); filter: blur(3px); opacity: 0.7; }
+            50% { transform: translateY(15px); filter: blur(3px); opacity: 0.7; }
+            100% { transform: translateY(-15px); filter: blur(3px); opacity: 0.7; }
         }
     </style>
 </head>
 <body>
+
+
 
     <!-- 👑 ওপরে ওッズ কাঠের সিঁড়ি প্যানেল -->
     <div class="top-wooden-ladder">
