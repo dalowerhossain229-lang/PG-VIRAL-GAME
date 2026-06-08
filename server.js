@@ -20,7 +20,7 @@ app.use((req, res, next) => {
     next();
 });
 
-const MAIN_SITE_URL = "https://onrender.com"; 
+const MAIN_SITE_URL = "https://betlover247.onrender.com"; 
 
 const bountySymbolsPool = [
     "BANDIT_WILD", "GOLD_BAR_SCATTER", "MASKED_BANDIT", 
