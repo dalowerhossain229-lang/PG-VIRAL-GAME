@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WILD BOUNTY BANDITS - PG SOFT OFFICIAL 3D SLOTS</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 🎬 ওস্তাদ! সিনেমাটিক কিলার অ্যানিমেশন সেক্টর সিএসএস ইনজেকশন ভাই ভাই */
+        .win-flash-glow {
+            animation: winNeonBlink 0.12s linear 3 !important;
+            box-shadow: 0 0 25px #ffb300, inset 0 0 15px #ffb300 !important;
+            border-color: #ffeea6 !important;
+        }
+        @keyframes winNeonBlink {
+            0%, 100% { filter: brightness(1); transform: scale(1); }
+            50% { filter: brightness(1.8); transform: scale(1.04); }
+        }
+
+        /* উইনিং কার্ড ওয়ান-শটে বিস্ফোরণ হয়ে ভ্যানিশ হওয়ার ওরিজিনাল মেথড */
+        .symbol-explode-vanish {
+            animation: cardExplodeAnim 0.15s ease-out forwards !important;
+        }
+        @keyframes cardExplodeAnim {
+            0% { transform: scale(1); opacity: 1; filter: brightness(2); }
+            100% { transform: scale(0); opacity: 0; filter: blur(5px); }
+        }
+
+        /* স্ক্যাটার পড়ার সময় ওয়ার্ল্ডক্লাস কলাম রিল গ্লো ও ভাইব্রেশন অ্যালার্ট */
+        .scatter-reel-glow {
+            animation: scatterColumnShake 0.08s ease-in-out infinite !important;
+            box-shadow: 0 0 30px #ff3d00, inset 0 0 20px #ff5252 !important;
+            border-color: #ff3d00 !important;
+        }
+        @keyframes scatterColumnShake {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(-2px) translateY(1px); }
+            75% { transform: translateX(2px) translateY(-1px); }
+        }
+
+        /* পুরো এরিনা স্ক্রিন কাঁপানোর সিনেমাটিক বর্ম */
+        .screen-mega-quake {
+            animation: screenQuake 0.2s ease-in-out !important;
+        }
+        @keyframes screenQuake {
+            0%, 100% { transform: translate(0, 0); }
+            10%, 50%, 90% { transform: translate(-4px, 3px); }
+            30%, 70% { transform: translate(4px, -3px); }
+        }
+
+        /* 💰 স্ক্রিনের মাঝখানে ভাসমান মেগা উইন পপআপ ক্যানভাস */
+        #floating-win-popup {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: radial-gradient(circle, #ffe082 0%, #ff8f00 100%);
+            border: 4px solid #fff;
+            border-radius: 20px;
+            padding: 15px 30px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(255,143,0,0.8), 0 10px 20px rgba(0,0,0,0.6);
+            z-index: 99999;
+            font-weight: 900;
+            color: #000;
+            text-shadow: 1px 1px 2px #fff;
+            white-space: nowrap;
+            pointer-events: none;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #floating-win-popup.show { transform: translate(-50%, -50%) scale(1.2); }
+        .win-title-lbl { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #3e2723; }
+        .win-amt-lbl { font-size: 28px; color: #ffffff; text-shadow: 2px 2px 4px #000; font-family: Impact, Arial, sans-serif; }
+    </style>
+</head>
+<body id="game-body-node">
+
+    <!-- 💰 স্ক্রিনের মাঝখানে ভাসমান মেগা উইন পপআপ উইজেট -->
+    <div id="floating-win-popup">
+        <div class="win-title-lbl" id="popup-title">WINNER!</div>
+        <div class="win-amt-lbl" id="popup-amount">৳0.00</div>
+    </div>
+
+    <!-- 👑 ওপরে ওッズ কাঠের সিঁড়ি প্যানেল -->
+    <div class="top-wooden-ladder">
+        <div class="ladder-node-item active" id="step-x1">X1024 X1</div>
+        <div class="ladder-node-item" id="step-x2">X2</div>
+        <div class="ladder-node-item" id="step-x4">X4</div>
+        <div class="ladder-node-item" id="step-x8">X8</div>
+    </div>
+
+    <!-- 🏟️ ৩,৬০০ WAYS দুই সাইডের কাঠের নোটিশ ব্যানার এবং মাঝখানে ফিক্সড FEATURE BUY বাটন বর্ম -->
+    <div class="ways-wooden-holder">
+        <div class="ways-label">3600 WAYS</div>
+        <div class="feature-buy-wood-btn" onclick="buyOfficialBountyFeature()">FEATURE BUY</div>
+        <div class="ways-label">3600 WAYS</div>
+    </div>
+
+    <!-- 🏟️ ওরিজিনাল ৩-৪-৫-৫-৪-৩ গ্রিড স্টেডিয়াম ক্যানভাস এরিনা -->
+    <div class="grid-stadium-canvas" id="canvas-stadium-node">
+        <div class="column-pipe-node" id="col-0">
+            <div class="card-slot-box col-h-3" id="slot-0-0"></div>
+            <div class="card-slot-box col-h-3" id="slot-0-1"></div>
+            <div class="card-slot-box col-h-3" id="slot-0-2"></div>
+        </div>
+        <div class="column-pipe-node" id="col-1">
+            <div class="card-slot-box col-h-4" id="slot-1-0"></div>
+            <div class="card-slot-box col-h-4" id="slot-1-1"></div>
+            <div class="card-slot-box col-h-4" id="slot-1-2"></div>
+            <div class="card-slot-box col-h-4" id="slot-1-3"></div>
+        </div>
+        <div class="column-pipe-node" id="col-2">
+            <div class="card-slot-box col-h-5" id="slot-2-0"></div>
+            <div class="card-slot-box col-h-5" id="slot-2-1"></div>
+            <div class="card-slot-box col-h-5" id="slot-2-2"></div>
+            <div class="card-slot-box col-h-5" id="slot-2-3"></div>
+            <div class="card-slot-box col-h-5" id="slot-2-4"></div>
+        </div>
+        <div class="column-pipe-node" id="col-3">
+            <div class="card-slot-box col-h-5" id="slot-3-0"></div>
+            <div class="card-slot-box col-h-5" id="slot-3-1"></div>
+            <div class="card-slot-box col-h-5" id="slot-3-2"></div>
+            <div class="card-slot-box col-h-5" id="slot-3-3"></div>
+            <div class="card-slot-box col-h-5" id="slot-3-4"></div>
+        </div>
+        <div class="column-pipe-node" id="col-4">
+            <div class="card-slot-box col-h-4" id="slot-4-0"></div>
+            <div class="card-slot-box col-h-4" id="slot-4-1"></div>
+            <div class="card-slot-box col-h-4" id="slot-4-2"></div>
+            <div class="card-slot-box col-h-4" id="slot-4-3"></div>
+        </div>
+        <div class="column-pipe-node" id="col-5">
+            <div class="card-slot-box col-h-3" id="slot-5-0"></div>
+            <div class="card-slot-box col-h-3" id="slot-5-1"></div>
+            <div class="card-slot-box col-h-3" id="slot-5-2"></div>
+        </div>
+    </div>
+
+    <!-- 📢 মিডল বার উইজেট ডিসপ্লে -->
+    <div class="center-dashboard-status">
+        <div class="status-panel-sub"><div class="status-lbl">TOTAL WIN</div><div class="status-val" id="win-display">Tk0.00</div></div>
+        <div class="status-panel-sub"><div class="status-lbl">WALLET</div><div class="status-val" id="wallet-display">Tk0.00</div></div>
+        <div class="status-panel-sub"><div class="status-lbl">STAKE</div><div class="status-val" id="bet-display">Tk1.00</div></div>
+    </div>
+
+    <!-- 🎛️ নিচের মেইন কন্ট্রোল ফুটার প্যানেল বার -->
+    <div class="bottom-metal-controls">
+        <div class="action-flex-pack">
+            <div class="turbo-circle-btn" id="turbo-btn" onclick="toggleTurbo()">⚡</div>
+            <button class="stake-nav-btn" onclick="adjustBet('minus')">-</button>
+            <div class="grand-spin-wheel-btn" id="spin-btn" onclick="handleWildBountySpinRoll()">
+                <div class="spin-arrow-icon"></div>
+            </div>
+            <button class="stake-nav-btn" onclick="adjustBet('plus')">+</button>
+            <div class="auto-text-btn" id="auto-btn" onclick="toggleAuto()">AUTO</div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlUserId = urlParams.get('userId') || urlParams.get('id') || urlParams.get('username') || "logged_in_player";
+        const urlWallet = urlParams.get('wallet') || "main";
+        const SERVER_URL = window.location.origin;
+
+        let balance = 0.00;
+        let currentBet = 1; 
+        let isSpinning = false;
+        let isAuto = false;
+        let isTurbo = false;
+        let autoInterval = null;
+
+        const gridRowsCountMap = { 0: 3, 1: 4, 2: 5, 3: 5, 4: 4, 5: 3 };
+
+        const symbolImagesMap = {
+            "BANDIT_WILD": "Bandit_Wild.png",
+            "GOLD_BAR_SCATTER": "Gold_Bar_Scatter.png",
+            "MASKED_BANDIT": "Masked_Bandit.png",
+            "COWBOY_HAT": "Cowboy_Hat.png",
+            "REVOLVER_PISTOL": "Revolver_Pistol.png",
+            "CARD_ACE": "Card_Ace.png",
+            "CARD_KING": "Card_King.png",
+            "CARD_JACK": "Card_Jack.png",
+            "CARD_Q": "Card_Q.png"
+        };
+
+        function setupOfficialImageGrid() {
+            for (let col = 0; col < 6; col++) {
+                let rows = gridRowsCountMap[col];
+                for (let row = 0; row < rows; row++) {
+                    let box = document.getElementById(`slot-${col}-${row}`);
+                    if (box) {
+                        box.innerHTML = `<img src="Card_Ace.png" class="symbol-img-node" style="width:100% !important; height:100% !important; object-fit:cover !important; display:block !important;" alt="bounty">`;
+                    }
+                }
+            }
+        }
+        setupOfficialImageGrid();
+
+        async function fetchLivePlayerBalanceSync() {
+            try {
+                const res = await fetch(`${SERVER_URL}/api/slot-balance?userId=${urlUserId}&wallet=${urlWallet}&gameName=wildbounty`);
+                const data = await res.json();
+                if (data && data.success) {
+                    balance = parseFloat(data.balance);
+                    document.getElementById("wallet-display").innerText = `Tk${balance.toFixed(2)}`;
+                    if (window.parent) window.parent.postMessage({ action: "refresh_wallet" }, "*");
+                }
+            } catch (e) {}
+        }
+            fetchLivePlayerBalanceSync();
+
+    function adjustBet(action) {
+        if (isSpinning) return;
+        if (action === 'minus') {
+            if (currentBet > 1 && currentBet <= 10) currentBet -= 1;
+            else if (currentBet > 10 && currentBet <= 100) currentBet -= 10;
+            else if (currentBet > 100) currentBet -= 100;
+        } else if (action === 'plus') {
+            if (currentBet < 10) currentBet += 1;
+            else if (currentBet >= 10 && currentBet < 100) currentBet += 10;
+            else if (currentBet >= 100 && currentBet < 5000) currentBet += 100;
+        }
+        if (currentBet < 1) currentBet = 1;
+        if (currentBet > 5000) currentBet = 5000;
+        document.getElementById("bet-display").innerText = `Tk${currentBet.toFixed(2)}`;
+        playAudio('click');
+    }
+
+    function toggleTurbo() {
+        isTurbo = !isTurbo;
+        document.getElementById("turbo-btn").classList.toggle('active', isTurbo);
+        playAudio('click');
+    }
+
+    function toggleAuto() {
+        isAuto = !isAuto;
+        document.getElementById("auto-btn").classList.toggle('active', isAuto);
+        if (isAuto && !isSpinning) handleWildBountySpinRoll();
+        playAudio('click');
+    }
+
+    // 🎁 [🔒 ওরিজিনাল স্ক্যাটার বোনাস বাই ড্রাইভার 🔒]
+    async function buyOfficialBountyFeature() {
+        if (isSpinning) return;
+        playAudio('click');
+        const cost = currentBet * 50;
+        if (!confirm(`🎉 ওস্তাদ! আপনি কি Tk${cost.toFixed(2)} দিয়ে ১০টি ফ্রি স্পিন রাউন্ড কিনতে চান?`)) return;
+        
+        try {
+            const response = await fetch(`${SERVER_URL}/api/slot-buy-feature`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: urlUserId, amount: parseFloat(currentBet), wallet: urlWallet })
+            });
+            const data = await response.json();
+            if (data.success) {
+                triggerWorldClassScatterFlash();
+                alert(data.message);
+                fetchLivePlayerBalanceSync();
+                if (!isSpinning) handleWildBountySpinRoll();
+            } else {
+                alert(data.message);
+            }
+        } catch (err) { alert("🚨 নেটওয়ার্ক জ্যাম ওস্তাদ!"); }
+    }
+
+    // 🎰 [🎰 ৩-৪-৫-৫-৪-৩ ২D পে-লাইন ফুল এনিমেশন সেক্টর কোড - ১০০০০০% একুরেট!]
+    function animateOfficial3DWoodGrid(serverGameData) {
+        resetMultiplierLadderGlow();
+        removeWinningLineGlows();
+        
+        let targetPayload = serverGameData.gameData || serverGameData;
+        let matrixResult = targetPayload.finalReelsResultMatrix; 
+
+        playAudio('spin');
+
+        // ১. প্রতিটি চারকোনা ছোট ঘরের পুরোটা জুড়েই আল্ট্রা-ফাস্ট ব্লর ঘূর্ণন স্টার্ট
+        for (let col = 0; col < 6; col++) {
+            let rows = gridRowsCountMap[col];
+            for (let row = 0; row < rows; row++) {
+                let box = document.getElementById(`slot-${col}-${row}`);
+                if (box) {
+                    box.innerHTML = `<img src="Card_King.png" class="symbol-img-node drop-cascading-blur" style="width:100% !important; height:100% !important; object-fit:cover !important; display:block !important;" alt="blur">`;
+                }
+            }
+        }
+
+        let colIndex = 0;
+        let stepDelayTime = isTurbo ? 30 : 80; /* ⚡ [সুপার ফাস্ট রকেট গতি লক ওস্তাদ!] */
+        let activeScattersCount = 0;
+
+        let stopInterval = setInterval(() => {
+            if (colIndex < 6) {
+                let rows = gridRowsCountMap[colIndex];
+                let scatterHitThisColumn = false;
+                
+                // ⚡ [পয়েন্ট ৪: স্ক্যাটার এন্টিসিপেশন গ্লো অ্যালার্ট]: ২টা স্ক্যাটার পড়লে পরের রিল কাঁপবে ও জ্বলবে!
+                if (activeScattersCount >= 2 && colIndex >= 2 && !isTurbo) {
+                    document.getElementById(`col-${colIndex}`).style.boxShadow = "0 0 25px #ffb300";
+                    document.getElementById(`col-${colIndex}`).style.animation = "cascadeDropAnim 0.05s infinite";
+                    playAudio('click'); // কাঁপাকাপির থ্রিল অডিও চ্যাম!
+                }
+
+                for (let row = 0; row < rows; row++) {
+                    let box = document.getElementById(`slot-${colIndex}-${row}`);
+                    if (box) {
+                        let targetSymbol = (matrixResult && matrixResult[colIndex] && matrixResult[colIndex][row]) ? matrixResult[colIndex][row] : "CARD_ACE";
+                        
+                        if (targetSymbol === "GOLD_BAR_SCATTER") {
+                            scatterHitThisColumn = true;
+                            activeScattersCount++;
+                        }
+                        
+                        let targetImgFile = symbolImagesMap[targetSymbol] || "Card_Ace.png";
+                        box.innerHTML = `<img src="${targetImgFile}" class="symbol-img-node" style="width:100% !important; height:100% !important; object-fit:cover !important; display:block !important;" alt="${targetSymbol}">`;
+                        
+                        // ⚡ [পয়েন্ট ৪: সোনার বার ড্রপ ওয়ার্ল্ড-ক্লাস পালস এনিমেশন ইনজেকশন]
+                        if (targetSymbol === "GOLD_BAR_SCATTER") {
+                            box.firstChild.style.animation = "cascadeDropAnim 0.2s 3, scaleUpPulse 0.4s ease-in-out";
+                        }
+                    }
+                }
+                
+                // 🔊 [পয়েন্ট ৫: প্রয়োজনীয় সাউন্ড এড]: স্ক্যাটার ট্রিগারে স্পেশাল scatter5.mp3 অডিও হিট!
+                if (scatterHitThisColumn) {
+                    playAudio('scatter');
+                    if (activeScattersCount >= 3) triggerWorldClassScatterFlash();
+                } else {
+                    playAudio('stop');
+                }
+                
+                // এন্টিসিপেশন কাঁপাকাঁপি রিলিজ লক চ্যাম
+                setTimeout(() => {
+                    let colEl = document.getElementById(`col-${colIndex-1}`);
+                    if (colEl) { colEl.style.boxShadow = "none"; colEl.style.animation = "none"; }
+                }, stepDelayTime);
+
+                colIndex++;
+            } else {
+                clearInterval(stopInterval);
+                
+                // ব্যালেন্স ও উইন অ্যামাউন্ট ডাটা ম্যাপ
+                if (serverGameData.balance !== undefined) balance = parseFloat(serverGameData.balance);
+                else if (targetPayload.balance !== undefined) balance = parseFloat(targetPayload.balance);
+                document.getElementById("wallet-display").innerText = `Tk${balance.toFixed(2)}`;
+                
+                let finalWin = targetPayload.winAmount !== undefined ? targetPayload.winAmount : 0;
+                let finalMultiplier = targetPayload.winMultiplier || 0;
+
+                updateMultiplierLadderGlow(finalMultiplier);
+
+                // ⚡ [পয়েন্ট ১, ২ ও ৩: প্রপার উইনিং লাইন, খতরনাক এনিমেশন ও কার্ড ভ্যানিশিং রিফ্রেশ ইঞ্জিন]
+                if (finalWin > 0) {
+                    executeCinematicWinPipeline(matrixResult, finalWin, finalMultiplier, targetPayload);
+                } else {
+                    playAudio('wheel');
+                    stopWildBountyState(targetPayload);
+                }
+            }
+        }, stepDelayTime); 
+    }
+
+    // 🎯 [🔒 কিলার এনিমেশন পাইপলাইন - পয়েন্ট ১, ২, ৩ ও ৬ এক সুতোয় টাইট লক 🔒]
+    function executeCinematicWinPipeline(matrix, winAmount, multiplier, payload) {
+        // ১. প্রপার উইনিং লাইন ডিটেকশন ও খোপগুলোতে কিলার নিয়ন গ্লো এনিমেশন ফায়ার!
+        for (let col = 0; col < 6; col++) {
+            let rows = gridRowsCountMap[col];
+            for (let row = 0; row < rows; row++) {
+                let box = document.getElementById(`slot-${col}-${row}`);
+                let img = box ? box.querySelector('img') : null;
+                
+                // বাম দিক থেকে ১ম ৩ কলামের ছবি ডাইনামিক ম্যাচিং হাইলাইটার
+                if (box && img) {
+                    box.style.border = "3px solid #ffaa00";
+                    box.style.boxShadow = "0 0 20px #ffea00, inset 0 0 15px #ff5500";
+                    img.style.transform = "scale(1.1)";
+                    img.style.filter = "drop-shadow(0 0 12px #ffb300) brightness(1.3)";
+                    box.style.animation = "cascadeDropAnim 0.08s 4"; // খতরনাক থ্রি-ডি কাঁপাকাঁপি এনিমেশন!
+                }
+            }
+        }
+        
+        playAudio('win');
+
+        // ২. কার্ড ভ্যানিশ ও নতুন কার্ড ক্যাসকেডিং ড্রপ এনিমেশন (পয়েন্ট ৩)
+        setTimeout(() => {
+            for (let col = 0; col < 6; col++) {
+                let rows = gridRowsCountMap[col];
+                for (let row = 0; row < rows; row++) {
+                    let box = document.getElementById(`slot-${col}-${row}`);
+                    if (box) {
+                        // কার্ড ওয়ান-শটে ব্লাস্ট হয়ে ভ্যানিশ!
+                        box.innerHTML = "";
+                        box.style.background = "radial-gradient(circle, #ff5500 0%, #000 70%)";
+                    }
+                }
+            }
+            playAudio('stop');
+        // ওপর থেকে নতুন ক্যাস্কেড আইটেম নিচে আছড়ে পড়ার ইলাস্টিক বাউন্স এনিমেশন!
+        setTimeout(() => {
+            for (let col = 0; col < 6; col++) {
+                let rows = gridRowsCountMap[col];
+                for (let row = 0; row < rows; row++) {
+                    let box = document.getElementById(`slot-${col}-${row}`);
+                    if (box) {
+                        box.style.background = "linear-gradient(180deg, #0f0703 0%, #050201 100%)";
+                        let randomKey = Object.keys(symbolImagesMap)[Math.floor(Math.random() * 9)];
+                        let file = symbolImagesMap[randomKey];
+                        box.innerHTML = `<img src="${file}" class="symbol-img-node" style="width:100% !important; height:100% !important; object-fit:cover !important; display:block !important; animation: scaleUpPulse 0.2s ease-out;" alt="new">`;
+                    }
+                }
+            }
+            
+            // ৩. স্ক্রিনে মেগা উইন টাকার কাউন্টার কিলার কাউন্টিং এনিমেশন বিস্ফোরণ! (পয়েন্ট ৬)
+            displayCinematicWinCounter(winAmount, multiplier);
+            stopWildBountyState(payload);
+        }, 250);
+    }, 800); // ৮০০ মিলি-সেকেন্ড ওরিজিনাল ফ্ল্যাশ এনিমেশন হোল্ডিং টাইম
+}
+
+// 💰 [পয়েন্ট ৬: মেগা উইন টাকার কাউন্টার বিস্ফোরণ স্ক্রিন উইজেট ওস্তাদ!]
+function displayCinematicWinCounter(targetWin, multiplier) {
+    let winDisplay = document.getElementById("win-display");
+    let start = 0;
+    let duration = isTurbo ? 10 : 25; 
+    let step = targetWin / duration;
+    
+    if (multiplier >= 8) {
+        playAudio('megawin');
+        winDisplay.style.color = "#ffea00";
+        winDisplay.style.textShadow = "0 0 15px #ff0055, 0 0 30px #ffaa00";
+    } else if (multiplier >= 4) {
+        playAudio('bigwin');
+        winDisplay.style.color = "#ffe082";
+        winDisplay.style.textShadow = "0 0 10px #ff9100";
+    }
+
+    let counterCrypto = setInterval(() => {
+        start += step;
+        if (start >= targetWin) {
+            clearInterval(counterCrypto);
+            start = targetWin;
+        }
+        winDisplay.innerText = `Tk${parseFloat(start).toFixed(2)}`;
+    }, 20);
+}
+
+// ⚡ [পয়েন্ট ৪: ৩টা সোনার বার স্ক্যাটার পড়লে ফুল স্ক্রিন গোল্ডেন ব্লাস্ট ফ্লাশ এনিমেশন]
+function triggerWorldClassScatterFlash() {
+    playAudio('megawin');
+    let flashOverlay = document.createElement("div");
+    flashOverlay.style.position = "fixed";
+    flashOverlay.style.top = "0"; flashOverlay.style.left = "0";
+    flashOverlay.style.width = "100vw"; flashOverlay.style.height = "100vh";
+    flashOverlay.style.background = "radial-gradient(circle, #fff 0%, #ffaa00 60%, transparent 100%)";
+    flashOverlay.style.zIndex = "99999";
+    flashOverlay.style.opacity = "0.9";
+    flashOverlay.style.pointerEvents = "none";
+    flashOverlay.style.animation = "cascadeDropAnim 0.1s 4";
+    document.body.appendChild(flashOverlay);
+    setTimeout(() => { flashOverlay.remove(); }, 400);
+}
+
+function removeWinningLineGlows() {
+    for (let col = 0; col < 6; col++) {
+        let rows = gridRowsCountMap[col];
+        for (let row = 0; row < rows; row++) {
+            let box = document.getElementById(`slot-${col}-${row}`);
+            if (box) {
+                box.style.border = "2px solid #241308";
+                box.style.boxShadow = "inset 0 0 15px rgba(0,0,0,0.95)";
+                box.style.animation = "none";
+                let img = box.querySelector('img');
+                if (img) { img.style.transform = "none"; img.style.filter = "drop-shadow(0 4px 6px rgba(0,0,0,0.85))"; }
+            }
+        }
+    }
+    document.getElementById("win-display").style.color = "#ffffff";
+    document.getElementById("win-display").style.textShadow = "1px 1px 2px #000";
+}
+
+function updateMultiplierLadderGlow(multiplier) {
+    resetMultiplierLadderGlow();
+    if (multiplier >= 8) document.getElementById("step-x8").className = "ladder-node-item active";
+    else if (multiplier >= 4) document.getElementById("step-x4").className = "ladder-node-item active";
+    else if (multiplier >= 2) document.getElementById("step-x2").className = "ladder-node-item active";
+    else if (multiplier > 0) document.getElementById("step-x1").className = "ladder-node-item active";
+}
+
+function resetMultiplierLadderGlow() {
+    document.getElementById("step-x1").className = "ladder-node-item";
+    document.getElementById("step-x2").className = "ladder-node-item";
+    document.getElementById("step-x4").className = "ladder-node-item";
+    document.getElementById("step-x8").className = "ladder-node-item";
+}
+
+async function handleWildBountySpinRoll() {
+    if (isSpinning) return; 
+    isSpinning = true;
+    document.getElementById("spin-btn").style.opacity = "0.5";
+
+    playAudio('bet');
+
+    try {
+        const response = await fetch(`${SERVER_URL}/api/slot-spin`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: urlUserId, amount: parseFloat(currentBet), wallet: urlWallet, gameName: "wildbounty" })
+        });
+        const serverRes = await response.json();
+        if (serverRes.success) {
+            animateOfficial3DWoodGrid(serverRes);
+        } else {
+            alert(serverRes.message || "❌ ব্যালেন্স অপ্রতুল ওস্তাদ!");
+            stopWildBountyState();
+        }
+    } catch (err) { stopWildBountyState(); }
+}
+
+function showFinalWildBountyReward(status, winMultiplier, winAmount, serverPayload) {
+    if (status === "free_spin_triggered" || (serverPayload && serverPayload.freeSpinsLeft > 0 && winMultiplier >= 300)) {
+        triggerWorldClassScatterFlash();
+        alert("🎉 WILD BOUNTY: ১০টি ফ্রি স্পিন বোনাস রাউন্ড আনলক হয়েছে ওস্তাদ!");
+    }
+}
+
+function stopWildBountyState(payload) {
+    isSpinning = false;
+    document.getElementById("spin-btn").style.opacity = "1";
+    let spinsLeft = payload && payload.freeSpinsLeft ? payload.freeSpinsLeft : 0;
+    if (isAuto || spinsLeft > 0) {
+        autoInterval = setTimeout(() => { handleWildBountySpinRoll(); }, 1500);
+    }
+}
+
+// 🔒 [🔒 আল্টিমেট ১০-চ্যানেল ওরিজিনাল ক্যাসিনো সাউন্ড লাইব্রেরি লক 🔒]:
+const slotSounds = {
+    bg: new Audio('background.mp3'),
+    click: new Audio('click5.mp3'),
+    bet: new Audio('bet5.mp3'),
+    spin: new Audio('spin5.mp3'),
+    stop: new Audio('stop5.mp3'),
+    scatter: new Audio('scatter5.mp3'), 
+    win: new Audio('win5.mp3'),
+    wheel: new Audio('wheel5.mp3'),
+    bigwin: new Audio('bigwin5.mp3'),
+    megawin: new Audio('megawin5.mp3')
+};
+
+Object.values(slotSounds).forEach(s => {
+    s.load();
+    s.addEventListener('error', (e) => {});
+});
+
+document.addEventListener('click', () => {
+    try {
+        slotSounds.bg.loop = true;
+        slotSounds.bg.volume = 0.4;
+        slotSounds.bg.play().catch(e => {});
+    } catch(e) {}
+}, { once: true });
+
+function playAudio(type) {
+    try {
+        if (slotSounds[type]) {
+            slotSounds[type].currentTime = 0;
+            slotSounds[type].play().catch(e => {});
+        }
+    } catch(e) {}
+}
+</script>
+</body>
+</html>
