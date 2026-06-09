@@ -174,7 +174,7 @@
             playAudio('click');
         }
 
-        async function buyOfficialBountyFeature() {
+                 async function buyOfficialBountyFeature() {
             if (isSpinning) return;
             playAudio('click');
             const cost = currentBet * 50;
@@ -195,10 +195,10 @@
                 } else {
                     alert(data.message);
                 }
-            } catch (err) { alert("🚨 Net Connection Timeout!"); }
+            } catch (err) { alert("🚨 নেটওয়ার্ক জ্যাম ওস্তাদ!"); }
         }
 
-                // 🎰 [🎰 ডাইনামিক মাল্টি-ক্যাস্কেড চেইন রেন্ডারিং এনিমেশন ইঞ্জিন]
+        // 🎰 [🎰 ডাইনামিক মাল্টি-ক্যাস্কেড চেইন রেন্ডারিং ও ক্রিস্টাল ক্লিয়ার এনিমেশন ইঞ্জিন]
         function animateOfficial3DWoodGrid(serverGameData) {
             resetMultiplierLadderGlow();
             removeWinningLineGlows();
@@ -206,9 +206,12 @@
             let targetPayload = serverGameData.gameData || serverGameData;
             let cascadeSteps = targetPayload.cascadeSteps || []; 
 
+            // 🔒 [🔒 কিংস ব্যালেন্স ট্র্যাপ ফিক্স বর্ম 🔒]: server.js এর ব্যালেন্স বাইরে থাকায় ডাবল ফিল্টার সিঙ্ক লক! TkNaN চিরতরে সাফ!
+            let activeRealBalance = serverGameData.balance !== undefined ? serverGameData.balance : (targetPayload.balance !== undefined ? targetPayload.balance : balance);
+
             playAudio('spin');
 
-            // প্রথম স্পিন ব্লর ঘূর্ণন শুরু (শুধুমাত্র ঘূর্ণনের সময় ব্লর অ্যানিমেশন অ্যাক্টিভেট হবে ওস্তাদ!)
+            // প্রথম স্পিন ব্লর ঘূর্ণন শুরু 
             for (let col = 0; col < 6; col++) {
                 let rows = gridRowsCountMap[col];
                 for (let row = 0; row < rows; row++) {
@@ -228,7 +231,7 @@
                     playAudio('stop');
                     playAudio('wheel');
                     
-                    let finalBal = parseFloat(targetPayload.balance);
+                    let finalBal = parseFloat(activeRealBalance);
                     if (!isNaN(finalBal)) {
                         document.getElementById("wallet-display").innerText = `Tk${finalBal.toFixed(2)}`;
                     }
@@ -242,7 +245,11 @@
 
             function executeNextCascadeChain() {
                 if (currentStepIndex >= cascadeSteps.length) {
-                    let finalBal = parseFloat(targetPayload.balance);
+                    // 🚀 [🔒 গ্র্যান্ড ক্যাস্কেড ফাইনাল ফিক্স বর্ম 🔒]: চেইন বিস্ফোরণ শেষে খালি ঘরগুলোতে ফাইনাল তাজা কার্ড বোর্ড রেন্ডার লক!
+                    renderMatrixGrid(targetPayload.finalReelsResultMatrix);
+                    playAudio('stop');
+
+                    let finalBal = parseFloat(activeRealBalance);
                     if (!isNaN(finalBal)) {
                         document.getElementById("wallet-display").innerText = `Tk${finalBal.toFixed(2)}`;
                     }
@@ -253,8 +260,7 @@
 
                 let currentStepData = cascadeSteps[currentStepIndex];
                 
-                // 🚀 [🔒 ১০০০০০% ক্রিস্টাল ক্লিয়ার রেন্ডারিং ফিক্স লক 🔒]:
-                // ক্যাসকেডের নতুন কার্ড স্ক্রিনে বসার সাথে সাথে ওল্ড জ্যামিং 'drop-cascading-blur' ক্লাস চিরতরে ধুয়ে সাফ! 
+                // ক্যাসকেডের ছবি এক্কেবারে ক্রিস্টাল ক্লিয়ার রেন্ডার লক! 
                 renderMatrixGrid(currentStepData.matrix);
                 playAudio('stop');
 
@@ -262,7 +268,7 @@
                     playAudio('scatter');
                 }
 
-                // সুনির্দিষ্ট উইনিং লাইনের ঘরগুলো হাইলাইট এবং নিয়ন ফ্লাশ!
+                // সুনির্দিষ্ট উইনিং লাইনের ঘরগুলো হাইলাইট এবং নিয়ন ফ্লাশ! (ছবি একদম স্পষ্ট চেনা যাবে!)
                 highlightWinningLineBoxes(currentStepData.matrix);
                 playAudio('win');
 
@@ -275,7 +281,7 @@
 
                     setTimeout(() => {
                         currentStepIndex++;
-                        executeNextCascadeChain(); 
+                        executeNextCascadeChain(); // পরবর্তী চেইনে প্রমোশন!
                     }, 250); 
                 }, 900); 
             }
@@ -285,7 +291,7 @@
             }, 400);
         }
 
-        // ম্যাট্রিক্স বোর্ড রেন্ডারার (এখানে কোন ব্লর ক্লাস থাকবে না, নতুন কার্ড এক্কেবারে ক্রিস্টাল ক্লিয়ার থাকবে!)
+        // ম্যাট্রিক্স বোর্ড রেন্ডারার
         function renderMatrixGrid(matrix) {
             if (!matrix) return;
             for (let col = 0; col < 6; col++) {
@@ -295,14 +301,13 @@
                     if (box && matrix[col] && matrix[col][row]) {
                         let sym = matrix[col][row];
                         let file = symbolImagesMap[sym] || "Card_Ace.png";
-                        // 🔒 [১০০% ক্লিয়ার ইমেজ ইনজেকশন লক]: এখানে কোনো ঝাপসা ক্লাস বা ব্লর ফিল্টার রাখা হয়নি ওস্তাদ! ছবি একদম ঝকঝকে!
                         box.innerHTML = `<img src="${file}" class="symbol-img-node" style="width:100% !important; height:100% !important; object-fit:cover !important; display:block !important; filter: none !important;" alt="${sym}">`;
                     }
                 }
             }
         }
 
-        // সুনির্দিষ্ট বিজয়ী ঘর হাইলাইটার (ছবি ১০০% স্পষ্ট চেনা যাবে এবং চমৎকার ক্যাসিনো নিয়ন স্টাইলে কাঁপবে ওস্তাদ!)
+        // সুনির্দিষ্ট বিজয়ী ঘর হাইলাইটার 
         function highlightWinningLineBoxes(matrix) {
             removeWinningLineGlows();
             let winSym = getWinningSymbolFromMatrix(matrix);
@@ -328,7 +333,7 @@
             }
         }
 
-        // জেতা ঘর ভ্যানিশিং মেথড
+        // जेता घर ভ্যানিশিং মেথড
         function vanishWinningLineBoxes(matrix) {
             let winSym = getWinningSymbolFromMatrix(matrix);
             for (let col = 0; col < 6; col++) {
@@ -385,7 +390,7 @@
             }
         }
 
-        // টাকার কাউন্টার এনিমেশন
+                // টাকার কাউন্টার এনিমেশন
         function displayCinematicWinCounter(targetWin, multiplier) {
             let winDisplay = document.getElementById("win-display");
             let start = 0;
@@ -410,86 +415,88 @@
         }
 
         function updateMultiplierLadderGlowByLabel(label) {
-    resetMultiplierLadderGlow();
-    if (label === "X2") document.getElementById("step-x2").className = "ladder-node-item active";
-    else if (label === "X4") document.getElementById("step-x4").className = "ladder-node-item active";
-    else if (label === "X8") document.getElementById("step-x8").className = "ladder-node-item active";
-    else if (label === "X16") document.getElementById("step-x16").className = "ladder-node-item active";
-}
+            resetMultiplierLadderGlow();
+            if (label === "X2") document.getElementById("step-x2").className = "ladder-node-item active";
+            else if (label === "X4") document.getElementById("step-x4").className = "ladder-node-item active";
+            else if (label === "X8") document.getElementById("step-x8").className = "ladder-node-item active";
+            else if (label === "X16") document.getElementById("step-x16").className = "ladder-node-item active";
+        }
 
-function resetMultiplierLadderGlow() {
-    document.getElementById("step-x2").className = "ladder-node-item";
-    document.getElementById("step-x4").className = "ladder-node-item";
-    document.getElementById("step-x8").className = "ladder-node-item";
-    document.getElementById("step-x16").className = "ladder-node-item";
-}
+        function resetMultiplierLadderGlow() {
+            document.getElementById("step-x2").className = "ladder-node-item";
+            document.getElementById("step-x4").className = "ladder-node-item";
+            document.getElementById("step-x8").className = "ladder-node-item";
+            document.getElementById("step-x16").className = "ladder-node-item";
+        }
 
-async function handleWildBountySpinRoll() {
-    if (isSpinning) return; 
-    isSpinning = true;
-    document.getElementById("spin-btn").style.opacity = "0.5";
-    playAudio('bet');
+        async function handleWildBountySpinRoll() {
+            if (isSpinning) return; 
+            isSpinning = true;
+            document.getElementById("spin-btn").style.opacity = "0.5";
+            playAudio('bet');
 
-    try {
-        const response = await fetch(`${SERVER_URL}/api/slot-spin`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId: urlUserId, amount: parseFloat(currentBet), wallet: urlWallet })
+            try {
+                const response = await fetch(`${SERVER_URL}/api/slot-spin`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId: urlUserId, amount: parseFloat(currentBet), wallet: urlWallet })
+                });
+                const serverRes = await response.json();
+                if (serverRes.success) {
+                    animateOfficial3DWoodGrid(serverRes);
+                } else {
+                    alert(serverRes.message || "❌ ব্যালেন্স অপ্রতুল ওস্তাদ!");
+                    stopWildBountyState();
+                }
+            } catch (err) { stopWildBountyState(); }
+        }
+
+        function stopWildBountyState(payload) {
+            isSpinning = false;
+            document.getElementById("spin-btn").style.opacity = "1";
+            let spinsLeft = payload && payload.freeSpinsLeft ? payload.freeSpinsLeft : 0;
+            if (isAuto || spinsLeft > 0) {
+                autoInterval = setTimeout(() => { handleWildBountySpinRoll(); }, 1500);
+            }
+        }
+
+        const slotSounds = {
+            bg: new Audio('background.mp3'),
+            click: new Audio('click5.mp3'),
+            bet: new Audio('bet5.mp3'),
+            spin: new Audio('spin5.mp3'),
+            stop: new Audio('stop5.mp3'),
+            scatter: new Audio('scatter5.mp3'), 
+            win: new Audio('win5.mp3'),
+            wheel: new Audio('wheel5.mp3'),
+            bigwin: new Audio('bigwin5.mp3'),
+            megawin: new Audio('megawin5.mp3')
+        };
+
+        Object.values(slotSounds).forEach(s => {
+            s.load();
+            s.addEventListener('error', (e) => {});
         });
-        const serverRes = await response.json();
-        if (serverRes.success) {
-            animateOfficial3DWoodGrid(serverRes);
-        } else {
-            alert(serverRes.message || "❌ ব্যালেন্স অপ্রতুল ওস্তাদ!");
-            stopWildBountyState();
+        
+        document.addEventListener('click', () => {
+            try {
+                slotSounds.bg.loop = true;
+                slotSounds.bg.volume = 0.4;
+                slotSounds.bg.play().catch(e => {});
+            } catch(e) {}
+        }, { once: true });
+
+        function playAudio(type) {
+            try {
+                if (slotSounds[type]) {
+                    slotSounds[type].currentTime = 0;
+                    slotSounds[type].play().catch(e => {});
+                }
+            } catch(e) {}
         }
-    } catch (err) { stopWildBountyState(); }
-}
-
-function stopWildBountyState(payload) {
-    isSpinning = false;
-    document.getElementById("spin-btn").style.opacity = "1";
-    let spinsLeft = payload && payload.freeSpinsLeft ? payload.freeSpinsLeft : 0;
-    if (isAuto || spinsLeft > 0) {
-        autoInterval = setTimeout(() => { handleWildBountySpinRoll(); }, 1500);
-    }
-}
-
-// 🔒 [🔒 আল্টিমেট ১০-চ্যানেল ওরিজিনাল ক্যাসিনো সাউন্ড লাইব্রেরি লক 🔒]:
-const slotSounds = {
-    bg: new Audio('background.mp3'),
-    click: new Audio('click5.mp3'),
-    bet: new Audio('bet5.mp3'),
-    spin: new Audio('spin5.mp3'),
-    stop: new Audio('stop5.mp3'),
-    scatter: new Audio('scatter5.mp3'), 
-    win: new Audio('win5.mp3'),
-    wheel: new Audio('wheel5.mp3'),
-    bigwin: new Audio('bigwin5.mp3'),
-    megawin: new Audio('megawin5.mp3')
-};
-
-Object.values(slotSounds).forEach(s => {
-    s.load();
-    s.addEventListener('error', (e) => {});
-});
-
-document.addEventListener('click', () => {
-    try {
-        slotSounds.bg.loop = true;
-        slotSounds.bg.volume = 0.4;
-        slotSounds.bg.play().catch(e => {});
-    } catch(e) {}
-}, { once: true });
-
-function playAudio(type) {
-    try {
-        if (slotSounds[type]) {
-            slotSounds[type].currentTime = 0;
-            slotSounds[type].play().catch(e => {});
-        }
-    } catch(e) {}
-}
-</script>
+    </script>
 </body>
 </html>
+
+                           
+                    
