@@ -183,83 +183,72 @@ app.post('/api/slot-spin', async (req, res) => {
 
                     currentCascadeIndex++; 
                 } else {
-                    isCascadeContinuing = false; 
-                }
-            } else {
-                isCascadeContinuing = false; 
+                          isCascadeContinuing = false; 
             }
+        } else {
+            isCascadeContinuing = false; 
         }
+    }
 
-        if (isCurrentSpinFree === true && totalWinAmount > 0) {
-            totalWinAmount = totalWinAmount * 2;
-            winMultiplier = winMultiplier * 2;
-        }
+    if (isCurrentSpinFree === true && totalWinAmount > 0) {
+        totalWinAmount = totalWinAmount * 2;
+        winMultiplier = winMultiplier * 2;
+    }
 
-        let phpPayload = { 
-            action: "win", username: finalQueryUser, amount: parseFloat(totalWinAmount), wallet: targetWallet, game: finalGameName 
-        };
-        phpPayload.status = (totalWinAmount === 0) ? "lose" : "win";
-        phpPayload.bet_amount = isCurrentSpinFree ? 0 : reqAmount;
+    let phpPayload = { 
+        action: "win", username: finalQueryUser, amount: parseFloat(totalWinAmount), wallet: targetWallet, game: finalGameName 
+    };
+    phpPayload.status = (totalWinAmount === 0) ? "lose" : "win";
+    phpPayload.bet_amount = isCurrentSpinFree ? 0 : reqAmount;
 
-        const response = await axios.post(`${MAIN_SITE_URL}/api_callback.php`, phpPayload, { timeout: 15000 });
+    const response = await axios.post(`${MAIN_SITE_URL}/api_callback.php`, phpPayload, { timeout: 15000 });
 
-                if (response.data && response.data.status === "ok") {
-            io.emit("balanceUpdate", { username: finalQueryUser, balance: response.data.balance });
-            return res.json({
-                success: true,
-                balance: response.data.balance,
-                gameData: {
-                    finalReelsResultMatrix: initialMatrix,
-                    winMultiplier: winMultiplier,
-                    status: phpPayload.status,
-                    winAmount: totalWinAmount,
-                    cascadeSteps: cascadeChainSteps, // ফ্রন্টএন্ডে ধামাধাম এক এক করে ব্লাস্ট এনিমেশন দেখানোর চেইন ডেটা!
-                    freeSpinsLeft: playerBountyFreeSpinsMap[finalQueryUser] || 0,
-                    isFreeSpinRound: isCurrentSpinFree
-                }
-            });
-        }
-        return res.json({ success: false, balance: currentDbBalance, freeSpinsLeft: playerBountyFreeSpinsMap[finalQueryUser] || 0 });
-    } catch (e) { return res.json({ success: false, freeSpinsLeft: playerBountyFreeSpinsMap[finalQueryUser] || 0, message: "⚠️ Timeout!" }); }
+    if (response.data && response.data.status === "ok") {
+        io.emit("balanceUpdate", { username: finalQueryUser, balance: response.data.balance });
+        return res.json({
+            success: true,
+            balance: response.data.balance,
+            gameData: {
+                finalReelsResultMatrix: initialMatrix,
+                winMultiplier: winMultiplier,
+                status: phpPayload.status,
+                winAmount: totalWinAmount,
+                cascadeSteps: cascadeChainSteps, 
+                freeSpinsLeft: playerBountyFreeSpinsMap[finalQueryUser] || 0,
+                isFreeSpinRound: isCurrentSpinFree
+            }
+        });
+    }
+    return res.json({ success: false, balance: currentDbBalance, freeSpinsLeft: playerBountyFreeSpinsMap[finalQueryUser] || 0 });
+} catch (e) { return res.json({ success: false, freeSpinsLeft: playerBountyFreeSpinsMap[finalQueryUser] || 0, message: "⚠️ Timeout!" }); }
 });
 
-// 🎁 [🔒 ওরিজিনাল স্ক্যাটার বোনাস বাই এপিআই রাউট লক 🔒]:
+// FEATURE BUY বোনাস রাউন্ড রাউট
 app.post('/api/slot-buy-feature', async (req, res) => {
     const { userId, amount, wallet } = req.body;
     const baseBet = parseFloat(amount) || 1;
     const buyFeatureCost = baseBet * 50; 
     const targetWallet = wallet || "main";
-    const finalGameName = "wildbounty";
-
-    let finalQueryUser = userId || "guest";
-    if (finalQueryUser === "logged_in_player" || finalQueryUser === "undefined") finalQueryUser = "guest";
+    let finalQueryUser = userId === "logged_in_player" || !userId || userId === "undefined" ? "guest" : userId;
 
     try {
         const balResponse = await axios.post(`${MAIN_SITE_URL}/api_callback.php`, {
-            action: "bet", username: finalQueryUser, amount: buyFeatureCost, wallet: targetWallet, game: finalGameName
+            action: "bet", username: finalQueryUser, amount: buyFeatureCost, wallet: targetWallet, game: "wildbounty"
         }, { timeout: 15000 });
 
-        if (!balResponse.data || balResponse.data.status !== "ok") {
-            return res.json({ success: false, message: "❌ ব্যালেন্স অপ্রতুল! ফিচার কিনতে ওয়ালেটে পর্যাপ্ত টাকা নেই ওস্তাদ।" });
-        }
+        if (!balResponse.data || balResponse.data.status !== "ok") return res.json({ success: false, message: "❌ ব্যালেন্স অপ্রতুল!" });
 
         playerBountyFreeSpinsMap[finalQueryUser] = (playerBountyFreeSpinsMap[finalQueryUser] || 0) + 10;
         io.emit("balanceUpdate", { username: finalQueryUser, balance: balResponse.data.balance });
 
-        return res.json({
-            success: true,
-            balance: balResponse.data.balance,
-            freeSpinsLeft: playerBountyFreeSpinsMap[finalQueryUser],
-            message: "🎉 ১০টি ফ্রি স্পিন বোনাস রাউন্ড সফলভাবে কেনা হয়েছে ওস্তাদ!"
-        });
-    } catch (e) {
-        return res.json({ success: false, message: "🚨 Gateway Timeout! Try again." });
-    }
+        return res.json({ success: true, balance: balResponse.data.balance, freeSpinsLeft: playerBountyFreeSpinsMap[finalQueryUser], message: "🎉 ১০টি ফ্রি স্পিন বোনাস সফল!" });
+    } catch (e) { return res.json({ success: false, message: "🚨 টাইমআউট!" }); }
 });
 
 app.get('/', (req, res) => { res.sendFile(path.resolve(__dirname, 'index.html')); });
-io.on('connection', (socket) => {});
-
-// ⚡ কাস্টম নোড সার্ভার পোর্ট গেটওয়ে লাইভ অন ফায়ার (৪০০০০ পোর্টে ডেডিকেটেড সিঙ্ক লক!)
 const PORT = process.env.PORT || 40000; 
 server.listen(PORT, () => { console.log(`🤠 Wild Bounty Bandits Official Pay-line Multi-Cascade Active on port ${PORT}`); });
+          
+        
+
+        
