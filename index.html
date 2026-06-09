@@ -198,7 +198,7 @@
             } catch (err) { alert("🚨 নেটওয়ার্ক জ্যাম ওস্তাদ!"); }
         }
 
-        // 🎰 [🎰 ডাইনামিক মাল্টি-ক্যাস্কেড চেইন রেন্ডারিং ও ক্রিস্টাল ক্লিয়ার এনিমেশন ইঞ্জিন]
+                // 🎰 [🎰 ডাইনামিক মাল্টি-ক্যাস্কেড চেইন রেন্ডারিং ও ক্রিস্টাল ক্লিয়ার এনিমেশন ইঞ্জিন]
         function animateOfficial3DWoodGrid(serverGameData) {
             resetMultiplierLadderGlow();
             removeWinningLineGlows();
@@ -245,7 +245,7 @@
 
             function executeNextCascadeChain() {
                 if (currentStepIndex >= cascadeSteps.length) {
-                    // 🚀 [🔒 গ্র্যান্ড ক্যাস্কেড ফাইনাল ফিক্স বর্ম 🔒]: চেইন বিস্ফোরণ শেষে খালি ঘরগুলোতে ফাইনাল তাজা কার্ড বোর্ড রেন্ডার লক!
+                    // 🚀 চেইন বিস্ফোরণ শেষে খালি ঘরগুলোতে ফাইনাল তাজা কার্ড বোর্ড রেন্ডার লক!
                     renderMatrixGrid(targetPayload.finalReelsResultMatrix);
                     playAudio('stop');
 
@@ -260,7 +260,8 @@
 
                 let currentStepData = cascadeSteps[currentStepIndex];
                 
-                // ক্যাসকেডের ছবি এক্কেবারে ক্রিস্টাল ক্লিয়ার রেন্ডার লক! 
+                // 🚀 [🔒 ১০০০০০% ক্রিস্টাল ক্লিয়ার রেন্ডারিং ফিক্স লক 🔒]:
+                // ক্যাসকেডের নতুন কার্ড স্ক্রিনে বসার সাথে সাথে ওল্ড জ্যামিং 'drop-cascading-blur' ক্লাস চিরতরে ধুয়ে সাফ! ছবি স্পষ্ট থাকবে!
                 renderMatrixGrid(currentStepData.matrix);
                 playAudio('stop');
 
@@ -268,7 +269,7 @@
                     playAudio('scatter');
                 }
 
-                // সুনির্দিষ্ট উইনিং লাইনের ঘরগুলো হাইলাইট এবং নিয়ন ফ্লাশ! (ছবি একদম স্পষ্ট চেনা যাবে!)
+                // সুনির্দিষ্ট উইনিং লাইনের ঘরগুলো হাইলাইট এবং নিয়ন ফ্লাশ! (ছবি একদম স্পষ্ট বাউন্ডারিতে চেনা যাবে!)
                 highlightWinningLineBoxes(currentStepData.matrix);
                 playAudio('win');
 
@@ -276,6 +277,7 @@
                 document.getElementById("win-display").innerText = `Tk${parseFloat(currentStepData.stepWin).toFixed(2)}`;
 
                 setTimeout(() => {
+                    // ৯০০ মিলি-সেকেন্ড পর্যন্ত কার্ড সম্পূর্ণ চেনা যাবে, তারপর ওয়ান-শটে ভ্যানিশ হবে ওস্তাদ!
                     vanishWinningLineBoxes(currentStepData.matrix);
                     playAudio('stop');
 
@@ -283,7 +285,7 @@
                         currentStepIndex++;
                         executeNextCascadeChain(); // পরবর্তী চেইনে প্রমোশন!
                     }, 250); 
-                }, 900); 
+                }, 950); 
             }
 
             setTimeout(() => {
@@ -291,7 +293,7 @@
             }, 400);
         }
 
-        // ম্যাট্রিক্স বোর্ড রেন্ডারার
+        // ম্যাট্রিক্স বোর্ড রেন্ডারার (এখানে কোন ব্লর ক্লাস থাকবে না, নতুন কার্ড এক্কেবারে ক্রিস্টাল ক্লিয়ার থাকবে!)
         function renderMatrixGrid(matrix) {
             if (!matrix) return;
             for (let col = 0; col < 6; col++) {
@@ -301,13 +303,14 @@
                     if (box && matrix[col] && matrix[col][row]) {
                         let sym = matrix[col][row];
                         let file = symbolImagesMap[sym] || "Card_Ace.png";
+                        // 🔒 [১০০% ক্লিয়ার ইমেজ ইনজেকশন লক]: এখানে কোনো ঝাপসা ক্লাস বা ব্লর ফিল্টার রাখা হয়নি ওস্তাদ! ছবি একদম ঝкঝকে!
                         box.innerHTML = `<img src="${file}" class="symbol-img-node" style="width:100% !important; height:100% !important; object-fit:cover !important; display:block !important; filter: none !important;" alt="${sym}">`;
                     }
                 }
             }
         }
 
-        // সুনির্দিষ্ট বিজয়ী ঘর হাইলাইটার 
+        // সুনির্দিষ্ট বিজয়ী ঘর হাইলাইটার (ছবি ১০০% স্পষ্ট ও ক্লিয়ার রেখে নিয়ন আলোয় থ্রি-ডি ভাইবে কাঁপানোর ওরিজিনাল প্রফেশনাল মেথড!)
         function highlightWinningLineBoxes(matrix) {
             removeWinningLineGlows();
             let winSym = getWinningSymbolFromMatrix(matrix);
@@ -324,7 +327,9 @@
                         
                         let img = box.querySelector('img');
                         if (img) {
-                            img.style.filter = "drop-shadow(0 0 12px #ffb300) brightness(1.2)";
+                            // ঘূর্ণন ব্লর ক্লাস রিমুভ ও ফিল্টার ফোর্স নো-ব্লর লক চ্যাম!
+                            img.className = "symbol-img-node";
+                            img.style.setProperty('filter', 'drop-shadow(0 0 12px #ffb300) brightness(1.2)', 'important');
                             img.style.transform = "scale(1.05)";
                         }
                         box.style.animation = "scaleUpPulse 0.15s ease-in-out infinite alternate";
@@ -333,7 +338,7 @@
             }
         }
 
-        // जेता घर ভ্যানিশিং মেথড
+        // জেতা ঘর ভ্যানিশিং মেথড
         function vanishWinningLineBoxes(matrix) {
             let winSym = getWinningSymbolFromMatrix(matrix);
             for (let col = 0; col < 6; col++) {
@@ -389,8 +394,7 @@
                 }
             }
         }
-
-                // টাকার কাউন্টার এনিমেশন
+        // টাকার কাউন্টার এনিমেশন
         function displayCinematicWinCounter(targetWin, multiplier) {
             let winDisplay = document.getElementById("win-display");
             let start = 0;
@@ -498,5 +502,4 @@
 </body>
 </html>
 
-                           
-                    
+        
