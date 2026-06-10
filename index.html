@@ -277,11 +277,12 @@
         
             
                 // যদি উইন হয়, তবে প্রতিটি ক্যাসকেড চেইন এক এক করে এক্সিকিউট হবে ওস্তাদ!
-                let currentStepIndex = 0;
+                                let currentStepIndex = 0;
 
                 function executeNextCascadeChain() {
                     if (currentStepIndex >= cascadeSteps.length) {
-                        renderMatrixGrid(targetPayload.finalReelsResultMatrix);
+                        let targetMatrix = targetPayload.finalReelsResultMatrix || serverGameData.finalReelsResultMatrix;
+                        renderServerMatrixToGrid(targetMatrix);
                         playAudio('stop');
 
                         let finalBal = parseFloat(activeRealBalance);
@@ -294,17 +295,15 @@
                     }
 
                     let currentStepData = cascadeSteps[currentStepIndex];
-                    
-                    // ক্যাসকেডের নতুন কার্ড স্ক্রিনে বসার সাথে সাথে ওয়ান-শটে ক্রিস্টাল ক্লিয়ার! 
-                    renderMatrixGrid(currentStepData.matrix);
+                    renderServerMatrixToGrid(currentStepData.matrix);
                     playAudio('stop');
 
                     if (hasScatterSymbol(currentStepData.matrix)) {
                         playAudio('scatter');
                     }
 
-                    // সুনির্দিষ্ট উইনিং লাইনের ঘরগুলো হাইলাইট এবং নিয়ন ফ্লাশ!
-                    highlightWinningLineBoxes(currentStepData.matrix);
+                    let serverWinningSymbol = targetPayload.status === "win" || targetPayload.status === "free_spin_triggered" ? getWinningSymbolFromMatrix(currentStepData.matrix) : "";
+                    highlightWinningLineBoxes(currentStepData.matrix, serverWinningSymbol);
                     playAudio('win');
 
                     updateMultiplierLadderGlowByLabel(currentStepData.multiplierLabel);
@@ -318,28 +317,44 @@
                             currentStepIndex++;
                             executeNextCascadeChain(); 
                         }, 250); 
-                    }, 1100); // কার্ড চেনার জন্য টাইমিং আরেকটু বাড়িয়ে ১১০০ মিলি-সেকেন্ড হোল্ডিং লক!
+                    }, 1100); 
                 }
 
                 executeNextCascadeChain();
             }
         }
 
-        // ম্যাট্রিক্স বোর্ড রেন্ডারার (কোনো ঘোলা ফিল্টার বা ক্লাস দুনিয়ার কোথাও নেই!)
-        function renderMatrixGrid(matrix) {
-            if (!matrix) return;
-            for (let col = 0; col < 6; col++) {
+        function highlightWinningLineBoxes(matrix, validatedWinSym) {
+            removeWinningLineGlows();
+            if (!validatedWinSym || validatedWinSym === "") return;
+            
+            let allowedColumnsCount = 3;
+            if (matrix[3] && (matrix[3].includes(validatedWinSym) || matrix[3].includes("BANDIT_WILD"))) {
+                allowedColumnsCount = 4;
+                if (matrix[4] && (matrix[4].includes(validatedWinSym) || matrix[4].includes("BANDIT_WILD"))) {
+                    allowedColumnsCount = 5;
+                    if (matrix[5] && (matrix[5].includes(validatedWinSym) || matrix[5].includes("BANDIT_WILD"))) {
+                        allowedColumnsCount = 6;
+                    }
+                }
+            }
+            
+            for (let col = 0; col < allowedColumnsCount; col++) {
                 let rows = gridRowsCountMap[col];
                 for (let row = 0; row < rows; row++) {
                     let box = document.getElementById(`slot-${col}-${row}`);
-                    if (box && matrix[col] && matrix[col][row]) {
-                        let sym = matrix[col][row];
-                        let file = symbolImagesMap[sym] || "Card_Ace.png";
-                        box.innerHTML = `<img src="${file}" class="symbol-img-node" style="width:100% !important; height:100% !important; object-fit:cover !important; display:block !important; filter: none !important; image-rendering: -webkit-optimize-contrast !important; image-rendering: crisp-edges !important;" alt="${sym}">`;
+                    let sym = (matrix && matrix[col]) ? matrix[col][row] : "";
+                    
+                    if (box && (sym === validatedWinSym || sym === "BANDIT_WILD")) {
+                        box.style.setProperty('border', '3px solid #ffaa00', 'important');
+                        box.style.setProperty('box-shadow', '0 0 25px #ffea00, inset 0 0 15px #ff5500', 'important');
+                        let img = box.querySelector('img');
+                        if (img) img.style.setProperty('transform', 'scale(1.06)', 'important');
                     }
                 }
             }
         }
+
 
         // সুনির্দিষ্ট বিজয়ী ঘর হাইলাইটার (ছবি ১০০% স্পষ্ট ও ক্লিয়ার রেখে নিয়ন আলোয় থ্রি-ডি ভাইবে কাঁপানোর ওরিজিনাল প্রফেশনাল মেথড!)
         function highlightWinningLineBoxes(matrix) {
