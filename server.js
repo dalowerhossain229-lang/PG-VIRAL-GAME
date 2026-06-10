@@ -238,16 +238,18 @@ app.post('/api/slot-spin', async (req, res) => {
             winningRowPositions = [sym0.indexOf("BANDIT_WILD"), sym1.indexOf("BANDIT_WILD"), sym2.indexOf("BANDIT_WILD")];
         }
 
-                // 🎲 উইন ক্যালকুলেটর এক্সিকিউশন ব্লক
+                  // 🎲 উইন ক্যালকুলেটর এক্সিকিউশন ব্লক
         if (bestMatchCount >= 3) {
             let hitChancesRoll = Math.random();
             let forceWinThisStep = false;
+            
+            // ৮৫%, ৬০%, ৪০% আরটিপি (RTP) কন্ট্রোল
             if (bestMatchCount === 3) forceWinThisStep = (hitChancesRoll <= 0.85); 
             else if (bestMatchCount === 4) forceWinThisStep = (hitChancesRoll <= 0.60); 
             else if (bestMatchCount >= 5) forceWinThisStep = (hitChancesRoll <= 0.40); 
 
             if (forceWinThisStep) {
-                // 💰 ছবিগুলোর নির্দিষ্ট ওডস (Odds) ভ্যালু
+                // 💰 ছবিগুলোর নির্দিষ্ট ওডস (Odds) ভ্যালু কনফিগারেশন
                 let stepBaseOdds = 0.30; 
                 if (finalWinningSymbol === "MASKED_BANDIT") stepBaseOdds = 2.50; 
                 else if (finalWinningSymbol === "COWBOY_HAT") stepBaseOdds = 1.80;
@@ -422,3 +424,4 @@ const PORT = process.env.PORT || 40000;
 server.listen(PORT, () => { 
     console.log(`🤠 Wild Bounty Bandits Official Pay-line Multi-Cascade Active on port ${PORT}`); 
 });
+                  
