@@ -148,7 +148,9 @@ app.post('/api/slot-spin', async (req, res) => {
     let totalWinAmount = 0;
     let winMultiplier = 0;
 
-    // 🎰 [🔒 ওরিজিনাল ৩,৬০০ WAYS স্ক্যাটার-পে ও ওয়াইল্ড সাবস্টিটিউশন মেকানিজম লুপ驱动 🔒]
+    
+                
+    // 🎰 [🔒 ওরিজিনাল ৩,৬০০ WAYS স্ক্যাটার-পে ও ওয়াইল্ড সাবস্টিটিউশন মেকানিজম লুপ ড্রাইভার 🔒]
     let cascadeChainSteps = [];
     let isCascadeContinuing = true;
     let currentCascadeIndex = 0; 
@@ -171,6 +173,7 @@ app.post('/api/slot-spin', async (req, res) => {
             initialMatrix = currentStepMatrix;
         }
 
+        // ✅ ফিক্সড: কলাম অ্যারে ইনডেক্সিং সংশোধন করা হলো (বাগ ফিক্স)
         let sym0 = currentStepMatrix[0] || [];
         let sym1 = currentStepMatrix[1] || [];
         let sym2 = currentStepMatrix[2] || [];
@@ -179,7 +182,7 @@ app.post('/api/slot-spin', async (req, res) => {
         let sym5 = currentStepMatrix[5] || [];
         
         // 🚀 [🔒 ওয়াইল্ড সাবস্টিটিউশন ও বেস সিম্বল ফিল্টার লক 🔒]
-        // ১ম কলামের ১ম ভ্যালিড (Non-Wild, Non-Scatter) ছবিটিকে উইনিং বেস ধরা হবে।
+        // উইন কাউন্ট করার জন্য ১ম কলামের ১ম ভ্যালিড (Non-Wild, Non-Scatter) ছবিটিকে উইনিং বেস ধরা হবে।
         let baseSym = null;
         for (let r = 0; r < sym0.length; r++) {
             if (sym0[r] !== "BANDIT_WILD" && sym0[r] !== "GOLD_BAR_SCATTER") { 
@@ -205,7 +208,7 @@ app.post('/api/slot-spin', async (req, res) => {
             let matchCount = 0;
             let rowPositions = []; // রো-ইনডেক্স ট্র্যাকার (বিগউইন চেক করার জন্য)
             
-            // 📊 প্রথম ৩ কলামের যেকোনো জায়গায় মিললে উইন শুরু (৪র্থ, ৫ম ও ৬ষ্ঠ কলাম পর্যন্ত চেইন বাড়তে পারে)
+            // 📊 প্রথম ৩ কলামের যেকোনো জায়গায় মিললে উইন শুরু (৪র্থ, ৫ম ও 六ষ্ঠ কলাম পর্যন্ত চেইন বাড়তে পারে)
             if (m1 && m2 && m3) {
                 matchCount = 3;
                 rowPositions.push(sym0.indexOf(baseSym) !== -1 ? sym0.indexOf(baseSym) : sym0.indexOf("BANDIT_WILD"));
@@ -228,85 +231,86 @@ app.post('/api/slot-spin', async (req, res) => {
                 }
             }
 
-                    // 🎰 হিট রেট কন্ট্রোলার (RTP ব্যালেন্স বজায় রাখার জন্য)
-        let hitChancesRoll = Math.random();
-        let forceWinThisStep = false;
-        if (matchCount === 3) forceWinThisStep = (hitChancesRoll <= 0.85); 
-        else if (matchCount === 4) forceWinThisStep = (hitChancesRoll <= 0.60); 
-        else if (matchCount >= 5) forceWinThisStep = (hitChancesRoll <= 0.40); 
+            // 🎲 হিট রেট কন্ট্রোলার (RTP ব্যালেন্স বজায় রাখার জন্য)
+            let hitChancesRoll = Math.random();
+            let forceWinThisStep = false;
+            if (matchCount === 3) forceWinThisStep = (hitChancesRoll <= 0.85); 
+            else if (matchCount === 4) forceWinThisStep = (hitChancesRoll <= 0.60); 
+            else if (matchCount >= 5) forceWinThisStep = (hitChancesRoll <= 0.40); 
 
-        if (matchCount >= 3 && forceWinThisStep) {
-            // 💰 ছবিগুলোর নির্দিষ্ট ওডস (Odds) ভ্যালু
-            let stepBaseOdds = 0.30; 
-            if (baseSym === "MASKED_BANDIT") stepBaseOdds = 2.50; 
-            else if (baseSym === "COWBOY_HAT") stepBaseOdds = 1.80;
-            else if (baseSym === "REVOLVER_PISTOL") stepBaseOdds = 1.20;
-            else if (baseSym === "CARD_ACE") stepBaseOdds = 0.60;
-            else if (baseSym === "CARD_KING") stepBaseOdds = 0.50;
+            if (matchCount >= 3 && forceWinThisStep) {
+                // 💰 ছবিগুলোর নির্দিষ্ট ওডস (Odds) ভ্যালু
+                let stepBaseOdds = 0.30; 
+                if (baseSym === "MASKED_BANDIT") stepBaseOdds = 2.50; 
+                else if (baseSym === "COWBOY_HAT") stepBaseOdds = 1.80;
+                else if (baseSym === "REVOLVER_PISTOL") stepBaseOdds = 1.20;
+                else if (baseSym === "CARD_ACE") stepBaseOdds = 0.60;
+                else if (baseSym === "CARD_KING") stepBaseOdds = 0.50;
 
-            // 🎯 [🔒 একই সারিতে মিললে বিগউইন মেকানিজম লক 🔒]
-            // ছবির রো-ইনডেক্স যদি হুবху এক হয় (অর্থাৎ পাশাপাশি একই সোজা লাইনে বসে), তবে ওডস ৪ গুণ বুস্ট হবে!
-            let isPerfectHorizontalLine = true;
-            for (let i = 1; i < rowPositions.length; i++) {
-                if (rowPositions[i] !== rowPositions[0]) {
-                    isPerfectHorizontalLine = false;
-                    break;
+                // 🎯 [🔒 একই সারিতে মিললে বিগউইন মেকানিজম লক 🔒]
+                // ছবির রো-ইনডেক্স যদি হুবху এক হয় (অর্থাৎ পাশাপাশি একই সোজা লাইনে বসে), তবে ওডস ৪ গুণ বুস্ট হবে!
+                let isPerfectHorizontalLine = true;
+                for (let i = 1; i < rowPositions.length; i++) {
+                    if (rowPositions[i] !== rowPositions[0]) {
+                        isPerfectHorizontalLine = false;
+                        break;
+                    }
                 }
-            }
 
-            if (isPerfectHorizontalLine) {
-                stepBaseOdds = stepBaseOdds * 4.0; // ⚡ পাশাপাশি সোজা জোড়ায় ৪ গুণ মেগা বিগউইন বোনাস!
-            }
-
-            // 📈 কলাম সংখ্যার মেগা কম্বো মাল্টিপ্লায়ার স্কেলিং
-            if (matchCount === 4) stepBaseOdds = stepBaseOdds * 1.5; 
-            else if (matchCount === 5) stepBaseOdds = stepBaseOdds * 3.0;
-            else if (matchCount === 6) stepBaseOdds = stepBaseOdds * 6.0;
-
-            let currentActiveMultiplier = cascadeMultiplierLadder[currentCascadeIndex]; 
-            let stepFinalMultiplier = stepBaseOdds * currentActiveMultiplier;
-
-            // 💰 ১-২ টাকার ছোট বেটে সর্বোচ্চ ১২০০ গুণ জ্যাকপট চান্স (৫% প্রোব্যাবিলিটি)
-            if ((reqAmount === 1 || reqAmount === 2) && Math.random() <= 0.05) {
-                stepFinalMultiplier = parseFloat((Math.random() * (1200 - 300) + 300).toFixed(2));
-            }
-
-            // 🛡️ বড় বাজি প্রোটেকশন গেটওয়ে লক (হাই বেট কন্ট্রোল)
-            if (reqAmount > 100) {
-                let highBetBlockRoll = Math.random();
-                if (reqAmount >= 1000 && highBetBlockRoll > 0.10) { 
-                    stepFinalMultiplier = 0.5; 
-                } else if (reqAmount > 100 && reqAmount < 1000 && highBetBlockRoll > 0.30) { 
-                    stepFinalMultiplier = 0.8; 
+                if (isPerfectHorizontalLine) {
+                    stepBaseOdds = stepBaseOdds * 4.0; // ⚡ পাশাপাশি সোজা জোড়ায় ৪ গুণ মেগা বিগউইন বোনাস!
                 }
-            }
 
-            // 💸 ফাইনাল হিসাব এবং ক্যাস্কেড স্টেপস পুশ
-            if (stepFinalMultiplier > 0) {
-                let stepWinCash = Math.round(reqAmount * stepFinalMultiplier);
-                totalWinAmount += stepWinCash;
-                winMultiplier += stepFinalMultiplier;
-                finalStatus = "win";
+                // 📈 কলাম সংখ্যার মেগা কম্বো মাল্টিপ্লায়ার স্কেলিং
+                if (matchCount === 4) stepBaseOdds = stepBaseOdds * 1.5; 
+                else if (matchCount === 5) stepBaseOdds = stepBaseOdds * 3.0;
+                else if (matchCount === 6) stepBaseOdds = stepBaseOdds * 6.0;
 
-                cascadeChainSteps.push({
-                    cascadeIndex: currentCascadeIndex,
-                    multiplierLabel: "X" + currentActiveMultiplier,
-                    matrix: currentStepMatrix,
-                    stepWin: stepWinCash
-                });
+                let currentActiveMultiplier = cascadeMultiplierLadder[currentCascadeIndex]; 
+                let stepFinalMultiplier = stepBaseOdds * currentActiveMultiplier;
 
-                currentCascadeIndex++; 
+                // 💰 ১-২ টাকার ছোট বেটে সর্বোচ্চ ১২০০ গুণ জ্যাকপট চান্স (৫% প্রোব্যাবিলিটি)
+                if ((reqAmount === 1 || reqAmount === 2) && Math.random() <= 0.05) {
+                    stepFinalMultiplier = parseFloat((Math.random() * (1200 - 300) + 300).toFixed(2));
+                }
+
+                // 🛡️ বড় বাজি প্রোটেকশন গেটওয়ে লক (হাই বেট কন্ট্রোল)
+                if (reqAmount > 100) {
+                    let highBetBlockRoll = Math.random();
+                    if (reqAmount >= 1000 && highBetBlockRoll > 0.10) { 
+                        stepFinalMultiplier = 0.5; 
+                    } else if (reqAmount > 100 && reqAmount < 1000 && highBetBlockRoll > 0.30) { 
+                        stepFinalMultiplier = 0.8; 
+                    }
+                }
+
+                // 💸 ফাইনাল হিসাব এবং ক্যাস্কেড স্টেপস পুশ
+                if (stepFinalMultiplier > 0) {
+                    let stepWinCash = Math.round(reqAmount * stepFinalMultiplier);
+                    totalWinAmount += stepWinCash;
+                    winMultiplier += stepFinalMultiplier;
+                    finalStatus = "win";
+
+                    cascadeChainSteps.push({
+                        cascadeIndex: currentCascadeIndex,
+                        multiplierLabel: "X" + currentActiveMultiplier,
+                        matrix: currentStepMatrix,
+                        stepWin: stepWinCash
+                    });
+
+                    currentCascadeIndex++; 
+                } else {
+                    isCascadeContinuing = false; 
+                }
             } else {
                 isCascadeContinuing = false; 
             }
         } else {
             isCascadeContinuing = false; 
         }
-    } else {
-        isCascadeContinuing = false; 
     }
-}
 
+            
 // 🎯 [🔒 অফিশিয়াল ১০০% র্যান্ডম স্ক্যাটার ফ্রি স্পিন চেকার 🔒]
 // পুরো বোর্ডের যেকোনো ৩টি বা তার বেশি জায়গায় GOLD_BAR_SCATTER পড়লে ১০টি ফ্রি স্পিন বোনাস!
 let totalScatterCountOnBoard = 0;
