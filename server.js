@@ -267,12 +267,12 @@ app.post('/api/slot-spin', async (req, res) => {
 
             // প্রথম ৩টি কলামে ব্যাক-টু-ব্যাক মিললেই কেবল উইন ভ্যালিড হবে
             if (matchCount >= 3) {
-                let stepBaseOdds = 0.30; 
-                if (baseSym === "MASKED_BANDIT") stepBaseOdds = 2.50; 
-                else if (baseSym === "COWBOY_HAT") stepBaseOdds = 1.80;
-                else if (baseSym === "REVOLVER_PISTOL") stepBaseOdds = 1.20;
-                else if (baseSym === "CARD_ACE") stepBaseOdds = 0.60;
-                else if (baseSym === "CARD_KING") stepBaseOdds = 0.50;
+                let stepBaseOdds = 0.10; 
+                if (baseSym === "MASKED_BANDIT") stepBaseOdds = 1.20; 
+                else if (baseSym === "COWBOY_HAT") stepBaseOdds = .80;
+                else if (baseSym === "REVOLVER_PISTOL") stepBaseOdds = .50;
+                else if (baseSym === "CARD_ACE") stepBaseOdds = 0.25;
+                else if (baseSym === "CARD_KING") stepBaseOdds = 0.20;
 
                 // 🎯 পাশাপাশি একই সারিতে মিললে ৪ গুণ বিগউইন বুস্টার (ইনডেক্স বাগ ফিক্সড)
                 let isPerfectHorizontalLine = true;
@@ -283,7 +283,7 @@ app.post('/api/slot-spin', async (req, res) => {
                     }
                 }
                 if (isPerfectHorizontalLine) {
-                    stepBaseOdds = stepBaseOdds * 4.0;
+                    stepBaseOdds = stepBaseOdds * 2.0;
                 }
 
                 // কলাম স্কেলিং মাল্টিপ্লায়ার 
