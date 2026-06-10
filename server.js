@@ -39,6 +39,8 @@ const bountySymbolsPool = [
 ];
 
 let playerBountyFreeSpinsMap = {};
+let totalSpinsCounterGlobal = 0; // প্রতি স্পিন ট্র্যাক করার জন্য গ্লোবাল কাউন্টার
+
 const gridRowsCountMap = { 0: 3, 1: 4, 2: 5, 3: 5, 4: 4, 5: 3 };
 
 // 🎯 ৪-স্টেজ ওরিজিনাল ক্যাস্কেড মাল্টিপ্লায়ার ল্যাডার চ্যাম লক
@@ -149,27 +151,80 @@ app.post('/api/slot-spin', async (req, res) => {
     let winMultiplier = 0;
 
     // 🎰 [🔒 ওরিজিনাল ৩,৬০০ WAYS স্ক্যাটার-পে ও ওয়াইল্ড সাবস্টিটিউশন মেকানিজম লুপ ড্রাইভার 🔒]
+        // 🎰 [🔒 ওরিজিনাল ৩,৬০০ WAYS স্ক্যাটার-পে ও ওয়াইল্ড সাবস্টিটিউশন মেকানিজম লুপ ড্রাইভার 🔒]
     let cascadeChainSteps = [];
     let isCascadeContinuing = true;
     let currentCascadeIndex = 0; 
     let initialMatrix = { 0: [], 1: [], 2: [], 3: [], 4: [], 5: [] };
 
+    // গ্লোবাল স্পিন কাউন্ট বাড়ানো হলো (শুধুমাত্র বেস স্পিন ট্র্যাক করার জন্য)
+    if (currentCascadeIndex === 0 && isCurrentSpinFree === false) {
+        totalSpinsCounterGlobal++;
+    }
+
     // 🔄 ক্যাস্কেড মাল্টিপ্লায়ার লুপ প্রসেসিং
     while (isCascadeContinuing && currentCascadeIndex < cascadeMultiplierLadder.length) {
         let currentStepMatrix = { 0: [], 1: [], 2: [], 3: [], 4: [], 5: [] };
         
-        // 🎲 র্যান্ডম গ্রিড জেনারেটর (ন্যাচারাল ড্রপ)
+        let currentScatterBudget = 0; // এই রাউন্ডে বোর্ডে কয়টি স্ক্যাটার পড়েছে তার ট্র্যাকার
+
+        // 🎲 র্যান্ডম গ্রিড জেনারেটর (ন্যাচারাল ড্রপ উইথ ১% স্ক্যাটার ফিল্টার লক)
         for (let col = 0; col < 6; col++) {
             let maxRows = gridRowsCountMap[col];
             for (let r = 0; r < maxRows; r++) {
                 let randSym = bountySymbolsPool[Math.floor(Math.random() * bountySymbolsPool.length)];
+                
+                // 🔒 [🔒 ১০০-১৫০ স্পিন পর পর স্ক্যাটার ড্রপ প্রোটেকশন লক 🔒]
+                if (randSym === "GOLD_BAR_SCATTER") {
+                    let scatterDropChance = Math.random(); // ০ থেকে ১ এর মধ্যে র্যান্ডম সংখ্যা
+                    
+                    // প্লেয়ার যদি ১০০ স্পিনের কম খেলে, তবে বোর্ডে সর্বোচ্চ ২টি স্ক্যাটার পড়তে পারবে (ফ্রি স্পিন ট্রিগার হবে না)
+                    if (totalSpinsCounterGlobal < 100) {
+                        if (currentScatterBudget >= 2) {
+                            randSym = "CARD_Q"; // ৩ নম্বর স্ক্যাটার ব্লক করে Q বসানো হলো
+                        } else {
+                            // ২টি স্ক্যাটার পড়ার চান্সও কমিয়ে ৫% করা হলো, যাতে ঘনঘন ২টা স্ক্যাটার এসে প্লেয়ারকে বিরক্ত না করে
+                            if (scatterDropChance > 0.05) {
+                                randSym = "CARD_JACK";
+                            } else {
+                                currentScatterBudget++;
+                            }
+                        }
+                    } 
+                    // প্লেয়ার ১০০ থেকে ১৫০ স্পিনের মধ্যে থাকলে ৩টি স্ক্যাটার (ফ্রি স্পিন) পড়ার জেনুইন চান্স মাত্র ১.৫% করা হলো
+                    else if (totalSpinsCounterGlobal >= 100 && totalSpinsCounterGlobal <= 150) {
+                        if (scatterDropChance > 0.015) { 
+                            // ১.৫% ভাগ্যের ওপর টিকিট কাটলো, না মিললে স্ক্যাটার বদলে তাসের কার্ড বসবে
+                            randSym = (currentScatterBudget >= 2) ? "CARD_Q" : "CARD_ACE";
+                        } else {
+                            currentScatterBudget++;
+                        }
+                    } 
+                    // যদি প্লেয়ার ১৫০ স্পিন পার হয়ে যায় এবং ভাগ্য খারাপ থাকার কারণে তাও ফ্রি স্পিন না পায়,
+                    // তবে গেমটি অটোমেটিক স্ক্যাটার পড়ার জেনুইন চান্স বাড়িয়ে ১০% করে দেবে (প্লেয়ার রিটেনশন বুস্টার)
+                    else if (totalSpinsCounterGlobal > 150) {
+                        if (scatterDropChance > 0.10) {
+                            randSym = "CARD_KING";
+                        } else {
+                            currentScatterBudget++;
+                        }
+                    }
+                }
+
                 currentStepMatrix[col].push(randSym);
             }
+        }
+
+        // যদি এই রাউন্ডে সফলভাবে ৩টি স্ক্যাটার ড্রপ হয়ে ফ্রি স্পিন মোড চালু হয়ে যায়,
+        // তবে গ্লোবাল স্পিন কাউন্টারটি আবার ০ তে রিসেট হবে, যাতে পরবর্তী ১০০-১৫০ স্পিনের সাইকেল আবার শুরু হয়।
+        if (currentCascadeIndex === 0 && currentScatterBudget >= 3) {
+            totalSpinsCounterGlobal = 0; 
         }
 
         if (currentCascadeIndex === 0) {
             initialMatrix = currentStepMatrix;
         }
+
 
         // ✅ ডিপ ক্লোনিং মেমোরি ফিক্স (আগের রাউন্ডের মেমোরি ক্যাশ বা বাগ সম্পূর্ণ ভ্যানিশ)
         let sym = [];
