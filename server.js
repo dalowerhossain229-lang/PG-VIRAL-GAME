@@ -287,9 +287,9 @@ app.post('/api/slot-spin', async (req, res) => {
                 }
 
                 // কলাম স্কেলিং মাল্টিপ্লায়ার 
-                if (matchCount === 4) stepBaseOdds = stepBaseOdds * 1.5; 
-                else if (matchCount === 5) stepBaseOdds = stepBaseOdds * 3.0;
-                else if (matchCount === 6) stepBaseOdds = stepBaseOdds * 6.0;
+                if (matchCount === 4) stepBaseOdds = stepBaseOdds * 1.1; 
+                else if (matchCount === 5) stepBaseOdds = stepBaseOdds * 1.3;
+                else if (matchCount === 6) stepBaseOdds = stepBaseOdds * 1.5;
 
                 let currentActiveMultiplier = cascadeMultiplierLadder[currentCascadeIndex]; 
                 let currentFinalMultiplier = stepBaseOdds * currentActiveMultiplier;
