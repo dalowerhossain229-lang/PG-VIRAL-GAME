@@ -85,7 +85,7 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
+                const urlParams = new URLSearchParams(window.location.search);
         const urlUserId = urlParams.get('userId') || urlParams.get('id') || urlParams.get('username') || "logged_in_player";
         const urlWallet = urlParams.get('wallet') || "main";
         const SERVER_URL = window.location.origin;
@@ -110,6 +110,40 @@
             "CARD_JACK": "Card_Jack.png",
             "CARD_Q": "Card_Q.png"
         };
+
+        // 🧹 ওল্ড ভিজ্যুয়াল ইফেক্ট রিসেট লক
+        function clearAllWinningVisualEffects() {
+            for (let col = 0; col < 6; col++) {
+                let rows = gridRowsCountMap[col];
+                for (let row = 0; row < rows; row++) {
+                    let box = document.getElementById(`slot-${col}-${row}`);
+                    if (box) {
+                        box.style.setProperty('border', '2px solid #241308', 'important');
+                        box.style.setProperty('box-shadow', 'inset 0 0 15px rgba(0,0,0,0.95)', 'important');
+                        box.style.setProperty('background', 'linear-gradient(180deg, #0f0703 0%, #050201 100%)', 'important');
+                    }
+                }
+            }
+            let winDisplay = document.getElementById("total-win-display");
+            if (winDisplay) winDisplay.innerText = "Tk0.00";
+        }
+
+        // 🎰 সার্ভার ম্যাট্রিক্স সিঙ্ক রেন্ডারার
+        function renderServerMatrixToGrid(serverMatrix) {
+            if (!serverMatrix) return;
+            clearAllWinningVisualEffects();
+            for (let col = 0; col < 6; col++) {
+                let columnData = serverMatrix[col] || [];
+                for (let row = 0; row < columnData.length; row++) {
+                    let box = document.getElementById(`slot-${col}-${row}`);
+                    let symbolName = columnData[row];
+                    let imageFile = symbolImagesMap[symbolName] || "Card_Ace.png";
+                    if (box && symbolName) {
+                        box.innerHTML = `<img src="${imageFile}" class="symbol-img-node" style="width:100% !important; height:100% !important; object-fit:cover !important; display:block !important;" alt="${symbolName}">`;
+                    }
+                }
+            }
+        }
 
         function setupOfficialImageGrid() {
             for (let col = 0; col < 6; col++) {
@@ -137,6 +171,7 @@
             } catch (e) {}
         }
         fetchLivePlayerBalanceSync();
+
 
         function adjustBet(action) {
             if (isSpinning) return;
