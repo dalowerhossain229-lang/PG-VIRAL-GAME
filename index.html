@@ -382,15 +382,27 @@
             }
         }
 
-        // জেতা ঘর ভ্যানিশিং মেথড
         function vanishWinningLineBoxes(matrix) {
             let winSym = getWinningSymbolFromMatrix(matrix);
-            for (let col = 0; col < 6; col++) {
+            if (!winSym || winSym === "") return;
+
+            let allowedColumnsCount = 3;
+            if (matrix[3] && (matrix[3].includes(winSym) || matrix[3].includes("BANDIT_WILD"))) {
+                allowedColumnsCount = 4;
+                if (matrix[4] && (matrix[4].includes(winSym) || matrix[4].includes("BANDIT_WILD"))) {
+                    allowedColumnsCount = 5;
+                    if (matrix[5] && (matrix[5].includes(winSym) || matrix[5].includes("BANDIT_WILD"))) {
+                        allowedColumnsCount = 6;
+                    }
+                }
+            }
+
+            for (let col = 0; col < allowedColumnsCount; col++) {
                 let rows = gridRowsCountMap[col];
                 for (let row = 0; row < rows; row++) {
                     let box = document.getElementById(`slot-${col}-${row}`);
                     let sym = (matrix && matrix[col]) ? matrix[col][row] : "";
-                    if (box && (sym === winSym || sym === "BANDIT_WILD") && winSym !== "") {
+                    if (box && (sym === winSym || sym === "BANDIT_WILD")) {
                         box.innerHTML = ""; 
                         box.style.setProperty('background', 'radial-gradient(circle, #ff5500 0%, #000 70%)', 'important');
                         box.style.setProperty('border', '2px solid #241308', 'important');
@@ -401,151 +413,140 @@
         }
 
         function getWinningSymbolFromMatrix(matrix) {
-            if(!matrix) return "";
-            for (let c = 0; c < 3; c++) {
-                if (matrix[c]) {
-                    for (let r = 0; r < matrix[c].length; r++) {
-                        let s = matrix[c][r];
-                        if (s !== "BANDIT_WILD" && s !== "GOLD_BAR_SCATTER") return s;
+            if (!matrix || !matrix[0]) return "";
+            let col0Symbols = matrix[0] || [];
+            for (let baseSym of col0Symbols) {
+                if (baseSym === "BANDIT_WILD" || baseSym === "GOLD_BAR_SCATTER") continue;
+                let matchCount = 1;
+                for (let colIdx = 1; colIdx < 6; colIdx++) {
+                    if (matrix[colIdx] && (matrix[colIdx].includes(baseSym) || matrix[colIdx].includes("BANDIT_WILD"))) {
+                        matchCount++;
+                    } else {
+                        break;
                     }
                 }
+                if (matchCount >= 3) return baseSym;
             }
             return "";
         }
 
         function hasScatterSymbol(matrix) {
-            if(!matrix) return false;
-            for(let c=0; c<6; c++) {
-                if(matrix[c] && matrix[c].includes("GOLD_BAR_SCATTER")) return true;
+            if (!matrix) return false;
+            for (let c = 0; c < 6; c++) {
+                if (matrix[c] && matrix[c].includes("GOLD_BAR_SCATTER")) return true;
             }
             return false;
         }
 
         function removeWinningLineGlows() {
-    for (let col = 0; col < 6; col++) {
-        let rows = gridRowsCountMap[col];
-        for (let row = 0; row < rows; row++) {
-            let box = document.getElementById(`slot-${col}-${row}`);
-            if (box) {
-                box.style.setProperty('border', '2px solid #241308', 'important');
-                box.style.setProperty('box-shadow', 'inset 0 0 15px rgba(0,0,0,0.95)', 'important');
-                box.style.setProperty('animation', 'none', 'important');
-                box.style.setProperty('background', 'linear-gradient(180deg, #0f0703 0%, #050201 100%)', 'important');
-                box.style.setProperty('transform', 'none', 'important');
-                let img = box.querySelector('img');
-                if (img) {
-                    img.style.setProperty('filter', 'none', 'important');
-                    img.style.setProperty('transform', 'none', 'important');
+            clearAllWinningVisualEffects();
+        }
+
+        function displayCinematicWinCounter(targetWin, multiplier) {
+            let winDisplay = document.getElementById("win-display");
+            if (!winDisplay) return;
+            let start = 0;
+            let step = targetWin / 20;
+            if (step <= 0) step = 1;
+            
+            if (multiplier >= 8) {
+                playAudio('megawin');
+                winDisplay.style.color = "#ffea00";
+            } else if (multiplier >= 4) {
+                playAudio('bigwin');
+                winDisplay.style.color = "#ffe082";
+            }
+
+            let counterCrypto = setInterval(() => {
+                start += step;
+                if (start >= targetWin) {
+                    clearInterval(counterCrypto);
+                    start = targetWin;
                 }
+                winDisplay.innerText = `Tk${parseFloat(start).toFixed(2)}`;
+            }, 25);
+        }
+
+        function updateMultiplierLadderGlowByLabel(label) {
+            resetMultiplierLadderGlow();
+            let step2 = document.getElementById("step-x2");
+            let step4 = document.getElementById("step-x4");
+            let step8 = document.getElementById("step-x8");
+            let step16 = document.getElementById("step-x16");
+
+            if (label === "X2" && step2) step2.className = "ladder-node-item active";
+            else if (label === "X4" && step4) step4.className = "ladder-node-item active";
+            else if (label === "X8" && step8) step8.className = "ladder-node-item active";
+            else if (label === "X16" && step16) step16.className = "ladder-node-item active";
+        }
+
+        function resetMultiplierLadderGlow() {
+            let step2 = document.getElementById("step-x2");
+            let step4 = document.getElementById("step-x4");
+            let step8 = document.getElementById("step-x8");
+            let step16 = document.getElementById("step-x16");
+
+            if (step2) step2.className = "ladder-node-item";
+            if (step4) step4.className = "ladder-node-item";
+            if (step8) step8.className = "ladder-node-item";
+            if (step16) step16.className = "ladder-node-item";
+        }
+
+        async function handleWildBountySpinRoll() {
+            if (isSpinning) return; 
+            isSpinning = true;
+            let spinBtn = document.getElementById("spin-btn");
+            if (spinBtn) spinBtn.style.opacity = "0.5";
+            playAudio('bet');
+
+            try {
+                const response = await fetch(`${SERVER_URL}/api/slot-spin`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId: urlUserId, amount: parseFloat(currentBet), wallet: urlWallet })
+                });
+                const serverRes = await response.json();
+                if (serverRes.success) {
+                    animateOfficial3DWoodGrid(serverRes);
+                } else {
+                    alert(serverRes.message || "❌ ব্যালেন্স অপ্রতুল ওস্তাদ!");
+                    stopWildBountyState();
+                }
+            } catch (err) { stopWildBountyState(); }
+        }
+
+        function stopWildBountyState(payload) {
+            isSpinning = false;
+            let spinBtn = document.getElementById("spin-btn");
+            if (spinBtn) spinBtn.style.opacity = "1";
+            let spinsLeft = payload && payload.freeSpinsLeft ? payload.freeSpinsLeft : 0;
+            if (isAuto || spinsLeft > 0) {
+                if (autoInterval) clearTimeout(autoInterval);
+                autoInterval = setTimeout(() => { handleWildBountySpinRoll(); }, 1500);
             }
         }
-    }
-}
 
-// টাকার কাউন্টার এনিমেশন
-function displayCinematicWinCounter(targetWin, multiplier) {
-    let winDisplay = document.getElementById("win-display");
-    let start = 0;
-    let step = targetWin / 20;
-    
-    if (multiplier >= 8) {
-        playAudio('megawin');
-        winDisplay.style.color = "#ffea00";
-    } else if (multiplier >= 4) {
-        playAudio('bigwin');
-        winDisplay.style.color = "#ffe082";
-    }
+        const slotSounds = {
+            bg: new Audio('background.mp3'),
+            click: new Audio('click5.mp3'),
+            bet: new Audio('bet5.mp3'),
+            spin: new Audio('spin5.mp3'),
+            stop: new Audio('stop5.mp3'),
+            scatter: new Audio('scatter5.mp3'), 
+            win: new Audio('win5.mp3'),
+            wheel: new Audio('wheel5.mp3'),
+            bigwin: new Audio('bigwin5.mp3'),
+            megawin: new Audio('megawin5.mp3')
+        };
 
-    let counterCrypto = setInterval(() => {
-        start += step;
-        if (start >= targetWin) {
-            clearInterval(counterCrypto);
-            start = targetWin;
+        function playAudio(soundName) {
+            try {
+                if (slotSounds && slotSounds[soundName]) {
+                    slotSounds[soundName].currentTime = 0;
+                    slotSounds[soundName].play().catch(() => {});
+                }
+            } catch (e) {}
         }
-        winDisplay.innerText = `Tk${parseFloat(start).toFixed(2)}`;
-    }, 25);
-}
-
-function updateMultiplierLadderGlowByLabel(label) {
-    resetMultiplierLadderGlow();
-    if (label === "X2") document.getElementById("step-x2").className = "ladder-node-item active";
-    else if (label === "X4") document.getElementById("step-x4").className = "ladder-node-item active";
-    else if (label === "X8") document.getElementById("step-x8").className = "ladder-node-item active";
-    else if (label === "X16") document.getElementById("step-x16").className = "ladder-node-item active";
-}
-
-function resetMultiplierLadderGlow() {
-    document.getElementById("step-x2").className = "ladder-node-item";
-    document.getElementById("step-x4").className = "ladder-node-item";
-    document.getElementById("step-x8").className = "ladder-node-item";
-    document.getElementById("step-x16").className = "ladder-node-item";
-}
-
-async function handleWildBountySpinRoll() {
-    if (isSpinning) return; 
-    isSpinning = true;
-    document.getElementById("spin-btn").style.opacity = "0.5";
-    playAudio('bet');
-
-    try {
-        const response = await fetch(`${SERVER_URL}/api/slot-spin`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId: urlUserId, amount: parseFloat(currentBet), wallet: urlWallet })
-        });
-        const serverRes = await response.json();
-        if (serverRes.success) {
-            animateOfficial3DWoodGrid(serverRes);
-        } else {
-            alert(serverRes.message || "❌ ব্যালেন্স অপ্রতুল ওস্তাদ!");
-            stopWildBountyState();
-        }
-    } catch (err) { stopWildBountyState(); }
-}
-
-function stopWildBountyState(payload) {
-    isSpinning = false;
-    document.getElementById("spin-btn").style.opacity = "1";
-    let spinsLeft = payload && payload.freeSpinsLeft ? payload.freeSpinsLeft : 0;
-    if (isAuto || spinsLeft > 0) {
-        autoInterval = setTimeout(() => { handleWildBountySpinRoll(); }, 1500);
-    }
-}
-
-const slotSounds = {
-    bg: new Audio('background.mp3'),
-    click: new Audio('click5.mp3'),
-    bet: new Audio('bet5.mp3'),
-    spin: new Audio('spin5.mp3'),
-    stop: new Audio('stop5.mp3'),
-    scatter: new Audio('scatter5.mp3'), 
-    win: new Audio('win5.mp3'),
-    wheel: new Audio('wheel5.mp3'),
-    bigwin: new Audio('bigwin5.mp3'),
-    megawin: new Audio('megawin5.mp3')
-};
-
-Object.values(slotSounds).forEach(s => {
-    s.load();
-    s.addEventListener('error', (e) => {});
-});
-
-document.addEventListener('click', () => {
-    try {
-        slotSounds.bg.loop = true;
-        slotSounds.bg.volume = 0.4;
-        slotSounds.bg.play().catch(e => {});
-    } catch(e) {}
-}, { once: true });
-
-function playAudio(type) {
-    try {
-        if (slotSounds[type]) {
-            slotSounds[type].currentTime = 0;
-            slotSounds[type].play().catch(e => {});
-        }
-    } catch(e) {}
-}
 </script>
 </body>
 </html>
