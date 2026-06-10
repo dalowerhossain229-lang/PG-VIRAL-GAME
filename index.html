@@ -172,7 +172,6 @@
         }
         fetchLivePlayerBalanceSync();
 
-
         function adjustBet(action) {
             if (isSpinning) return;
             if (action === 'minus') {
@@ -226,20 +225,17 @@
                 }
             } catch (err) { alert("🚨 নেটওয়ার্ক জ্যাম ওস্তাদ!"); }
         }
-        // 🎰 [🎰 ডাইনামিক মাল্টি-ক্যাস্কেড চেইন রেন্ডারিং এনিমেশন ইঞ্জিন]
+
         function animateOfficial3DWoodGrid(serverGameData) {
-            resetMultiplierLadderGlow();
-            removeWinningLineGlows();
+            clearAllWinningVisualEffects();
+            if (typeof resetMultiplierLadderGlow === "function") resetMultiplierLadderGlow();
             
             let targetPayload = serverGameData.gameData || serverGameData;
             let cascadeSteps = targetPayload.cascadeSteps || []; 
-
-            // 🔒 [🔒 কিংস ব্যালেন্স ট্র্যাপ ফিক্স বর্ম 🔒]
             let activeRealBalance = serverGameData.balance !== undefined ? serverGameData.balance : (targetPayload.balance !== undefined ? targetPayload.balance : balance);
 
             playAudio('spin');
 
-            // 🚀 [১০০০০০% নো-ব্লর ফাস্ট শাফলিং]: র্যান্ডম ইমেজ শাফলিং হবে কিন্তু ১ চুলও ঘোলা হবে না!
             let shuffleCount = 0;
             let maxShuffle = isTurbo ? 4 : 10;
             
@@ -252,7 +248,7 @@
                             let keys = Object.keys(symbolImagesMap);
                             let randSym = keys[Math.floor(Math.random() * keys.length)];
                             let file = symbolImagesMap[randSym];
-                            box.innerHTML = `<img src="${file}" class="symbol-img-node" style="width:100% !important; height:100% !important; object-fit:cover !important; display:block !important; filter: none !important; image-rendering: -webkit-optimize-contrast !important; image-rendering: crisp-edges !important;" alt="bounty">`;
+                            box.innerHTML = `<img src="${file}" class="symbol-img-node" style="width:100% !important; height:100% !important; object-fit:cover !important; display:block !important;" alt="bounty">`;
                         }
                     }
                 }
@@ -264,9 +260,9 @@
             }, 40);
 
             function processCascadeChainSequence() {
-                // যদি স্পিনটি ১০০% লস হয়
                 if (cascadeSteps.length === 0) {
-                    renderMatrixGrid(targetPayload.finalReelsResultMatrix);
+                    let targetMatrix = targetPayload.finalReelsResultMatrix || serverGameData.finalReelsResultMatrix;
+                    renderServerMatrixToGrid(targetMatrix);
                     playAudio('stop');
                     playAudio('wheel');
                     
@@ -278,6 +274,8 @@
                     return;
                 }
 
+        
+            
                 // যদি উইন হয়, তবে প্রতিটি ক্যাসকেড চেইন এক এক করে এক্সিকিউট হবে ওস্তাদ!
                 let currentStepIndex = 0;
 
