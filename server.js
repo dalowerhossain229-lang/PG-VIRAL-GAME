@@ -237,81 +237,68 @@ app.post('/api/slot-spin', async (req, res) => {
             finalWinningSymbol = "CARD_ACE"; // ফলব্যাক স্ট্যান্ডার্ড সিম্বল
             winningRowPositions = [sym0.indexOf("BANDIT_WILD"), sym1.indexOf("BANDIT_WILD"), sym2.indexOf("BANDIT_WILD")];
         }
-
-                  // 🎲 উইন ক্যালকুলেটর এক্সিকিউশন ব্লক
+        // 🎲 উইন ক্যালকুলেটর এক্সিকিউশন ব্লক (১০০% নিখুঁত উইন নিশ্চয়তা)
         if (bestMatchCount >= 3) {
-            let hitChancesRoll = Math.random();
-            let forceWinThisStep = false;
-            
-            // ৮৫%, ৬০%, ৪০% আরটিপি (RTP) কন্ট্রোল
-            if (bestMatchCount === 3) forceWinThisStep = (hitChancesRoll <= 0.85); 
-            else if (bestMatchCount === 4) forceWinThisStep = (hitChancesRoll <= 0.60); 
-            else if (bestMatchCount >= 5) forceWinThisStep = (hitChancesRoll <= 0.40); 
+            // 💰 ছবিগুলোর নির্দিষ্ট ওডস (Odds) ভ্যালু কনফিগারেশন
+            let stepBaseOdds = 0.30; 
+            if (finalWinningSymbol === "MASKED_BANDIT") stepBaseOdds = 2.50; 
+            else if (finalWinningSymbol === "COWBOY_HAT") stepBaseOdds = 1.80;
+            else if (finalWinningSymbol === "REVOLVER_PISTOL") stepBaseOdds = 1.20;
+            else if (finalWinningSymbol === "CARD_ACE") stepBaseOdds = 0.60;
+            else if (finalWinningSymbol === "CARD_KING") stepBaseOdds = 0.50;
 
-            if (forceWinThisStep) {
-                // 💰 ছবিগুলোর নির্দিষ্ট ওডস (Odds) ভ্যালু কনফিগারেশন
-                let stepBaseOdds = 0.30; 
-                if (finalWinningSymbol === "MASKED_BANDIT") stepBaseOdds = 2.50; 
-                else if (finalWinningSymbol === "COWBOY_HAT") stepBaseOdds = 1.80;
-                else if (finalWinningSymbol === "REVOLVER_PISTOL") stepBaseOdds = 1.20;
-                else if (finalWinningSymbol === "CARD_ACE") stepBaseOdds = 0.60;
-                else if (finalWinningSymbol === "CARD_KING") stepBaseOdds = 0.50;
-
-                // 🎯 [🔒 একই সারিতে মিললে বিগউইন মেকানিজম লক 🔒]
-                // ছবির রো-ইনডেক্স যদি হুবху এক হয় (অর্থাৎ পাশাপাশি একই সোজা লাইনে বসে), তবে ওডস ৪ গুণ বুস্ট হবে!
-                let isPerfectHorizontalLine = true;
-                for (let i = 1; i < winningRowPositions.length; i++) {
-                    if (winningRowPositions[i] !== winningRowPositions[0]) {
-                        isPerfectHorizontalLine = false;
-                        break;
-                    }
+            // 🎯 [🔒 একই সারিতে মিললে বিগউইন মেকানিজম লক 🔒]
+            // ছবির রো-ইনডেক্স যদি হুবху এক হয় (অর্থাৎ পাশাপাশি একই সোজা লাইনে বসে), তবে ওডস ৪ গুণ বুস্ট হবে!
+            let isPerfectHorizontalLine = true;
+            for (let i = 1; i < winningRowPositions.length; i++) {
+                if (winningRowPositions[i] !== winningRowPositions[0]) {
+                    isPerfectHorizontalLine = false;
+                    break;
                 }
+            }
 
-                if (isPerfectHorizontalLine) {
-                    stepBaseOdds = stepBaseOdds * 4.0; // ⚡ পাশাপাশি সোজা জোড়ায় ৪ গুণ মেগা বিগউইন বোনাস!
+            if (isPerfectHorizontalLine) {
+                stepBaseOdds = stepBaseOdds * 4.0; // ⚡ পাশাপাশি সোজা জোড়ায় ৪ গুণ মেগা বিগউইন বোনাস!
+            }
+
+            // 📈 কলাম সংখ্যার মেগা কম্বো মাল্টিপ্লায়ার স্কেলিং
+            if (bestMatchCount === 4) stepBaseOdds = stepBaseOdds * 1.5; 
+            else if (bestMatchCount === 5) stepBaseOdds = stepBaseOdds * 3.0;
+            else if (bestMatchCount === 6) stepBaseOdds = stepBaseOdds * 6.0;
+
+            let currentActiveMultiplier = cascadeMultiplierLadder[currentCascadeIndex]; 
+            let stepFinalMultiplier = stepBaseOdds * currentActiveMultiplier;
+
+            // 💰 ১-২ টাকার ছোট বেটে সর্বোচ্চ ১২০০ গুণ জ্যাকপট চান্স (৫% প্রোব্যাবিলিটি)
+            if ((reqAmount === 1 || reqAmount === 2) && Math.random() <= 0.05) {
+                stepFinalMultiplier = parseFloat((Math.random() * (1200 - 300) + 300).toFixed(2));
+            }
+
+            // 🛡️ বড় বাজি প্রোটেকশন গেটওয়ে লক (হাই বেট কন্ট্রোল)
+            if (reqAmount > 100) {
+                let highBetBlockRoll = Math.random();
+                if (reqAmount >= 1000 && highBetBlockRoll > 0.10) { 
+                    stepFinalMultiplier = 0.5; 
+                } else if (reqAmount > 100 && reqAmount < 1000 && highBetBlockRoll > 0.30) { 
+                    stepFinalMultiplier = 0.8; 
                 }
+            }
 
-                // 📈 কলাম সংখ্যার মেগা কম্বো মাল্টিপ্লায়ার স্কেলিং
-                if (bestMatchCount === 4) stepBaseOdds = stepBaseOdds * 1.5; 
-                else if (bestMatchCount === 5) stepBaseOdds = stepBaseOdds * 3.0;
-                else if (bestMatchCount === 6) stepBaseOdds = stepBaseOdds * 6.0;
+            // 💸 ফাইনাল হিসাব এবং ক্যাস্কেড স্টেপস পুশ
+            if (stepFinalMultiplier > 0) {
+                let stepWinCash = Math.round(reqAmount * stepFinalMultiplier);
+                totalWinAmount += stepWinCash;
+                winMultiplier += stepFinalMultiplier;
+                finalStatus = "win";
 
-                let currentActiveMultiplier = cascadeMultiplierLadder[currentCascadeIndex]; 
-                let stepFinalMultiplier = stepBaseOdds * currentActiveMultiplier;
+                cascadeChainSteps.push({
+                    cascadeIndex: currentCascadeIndex,
+                    multiplierLabel: "X" + currentActiveMultiplier,
+                    matrix: currentStepMatrix,
+                    stepWin: stepWinCash
+                });
 
-                // 💰 ১-২ টাকার ছোট বেটে সর্বোচ্চ ১২০০ গুণ জ্যাকপট চান্স (৫% প্রোব্যাবিলিটি)
-                if ((reqAmount === 1 || reqAmount === 2) && Math.random() <= 0.05) {
-                    stepFinalMultiplier = parseFloat((Math.random() * (1200 - 300) + 300).toFixed(2));
-                }
-
-                // 🛡️ বড় বাজি প্রোটেকশন গেটওয়ে লক (হাই বেট কন্ট্রোল)
-                if (reqAmount > 100) {
-                    let highBetBlockRoll = Math.random();
-                    if (reqAmount >= 1000 && highBetBlockRoll > 0.10) { 
-                        stepFinalMultiplier = 0.5; 
-                    } else if (reqAmount > 100 && reqAmount < 1000 && highBetBlockRoll > 0.30) { 
-                        stepFinalMultiplier = 0.8; 
-                    }
-                }
-
-                // 💸 ফাইনাল হিসাব এবং ক্যাস্কেড স্টেপস পুশ
-                if (stepFinalMultiplier > 0) {
-                    let stepWinCash = Math.round(reqAmount * stepFinalMultiplier);
-                    totalWinAmount += stepWinCash;
-                    winMultiplier += stepFinalMultiplier;
-                    finalStatus = "win";
-
-                    cascadeChainSteps.push({
-                        cascadeIndex: currentCascadeIndex,
-                        multiplierLabel: "X" + currentActiveMultiplier,
-                        matrix: currentStepMatrix,
-                        stepWin: stepWinCash
-                    });
-
-                    currentCascadeIndex++; 
-                } else {
-                    isCascadeContinuing = false; 
-                }
+                currentCascadeIndex++; 
             } else {
                 isCascadeContinuing = false; 
             }
@@ -424,4 +411,5 @@ const PORT = process.env.PORT || 40000;
 server.listen(PORT, () => { 
     console.log(`🤠 Wild Bounty Bandits Official Pay-line Multi-Cascade Active on port ${PORT}`); 
 });
-                  
+
+                              
